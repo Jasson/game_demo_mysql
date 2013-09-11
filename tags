@@ -4,226 +4,663 @@
 !_TAG_PROGRAM_NAME	Exuberant Ctags	//
 !_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
 !_TAG_PROGRAM_VERSION	5.9~svn20110310	//
-CHILD	.eunit/game_sup.erl	/^-define(CHILD(I, Type), {I, {I, start_link, []}, permanent, 5000, Type, [I]}).$/;"	d
+BIG_POW	src/mochinum.erl	/^-define(BIG_POW, 4503599627370496).$/;"	d
 CHILD	src/game_sup.erl	/^-define(CHILD(I, Type), {I, {I, start_link, []}, permanent, 5000, Type, [I]}).$/;"	d
-COLLECT_TAXES_TIME	include/game.hrl	/^-define(COLLECT_TAXES_TIME, 2000).$/;"	d
+COLLECT_TAXES_TIME	include/game.hrl	/^-define(COLLECT_TAXES_TIME, 1000).$/;"	d
+CONNECT_TIMEOUT	deps/mysql/.eunit/mysql.erl	/^-define(CONNECT_TIMEOUT, 5000).$/;"	d
+CONNECT_TIMEOUT	deps/mysql/.eunit/mysql_recv.erl	/^-define(CONNECT_TIMEOUT, 5000).$/;"	d
+CONNECT_TIMEOUT	deps/mysql/src/mysql.erl	/^-define(CONNECT_TIMEOUT, 5000).$/;"	d
+CONNECT_TIMEOUT	deps/mysql/src/mysql_recv.erl	/^-define(CONNECT_TIMEOUT, 5000).$/;"	d
+CONNECT_WITH_DB	deps/mysql/.eunit/mysql_auth.erl	/^-define(CONNECT_WITH_DB, 8).$/;"	d
+CONNECT_WITH_DB	deps/mysql/src/mysql_auth.erl	/^-define(CONNECT_WITH_DB, 8).$/;"	d
 CONSUMER_FOOD_TIME	include/game.hrl	/^-define(CONSUMER_FOOD_TIME, 1000).$/;"	d
 DEBUG	include/game.hrl	/^-define(DEBUG(Input, Args), $/;"	d
+DEFAULT_STANDALONE_TIMEOUT	deps/mysql/.eunit/mysql_conn.erl	/^-define(DEFAULT_STANDALONE_TIMEOUT, 5000).$/;"	d
+DEFAULT_STANDALONE_TIMEOUT	deps/mysql/src/mysql_conn.erl	/^-define(DEFAULT_STANDALONE_TIMEOUT, 5000).$/;"	d
 ERROR	include/game.hrl	/^-define(ERROR(Input, Args), $/;"	d
+FLOAT_BIAS	src/mochinum.erl	/^-define(FLOAT_BIAS, 1022).$/;"	d
+L	deps/mysql/.eunit/mysql.erl	/^-define(L(Msg), io:format("~p:~b ~p ~n", [?MODULE, ?LINE, Msg])).$/;"	d
+L	deps/mysql/.eunit/mysql_conn.erl	/^-define(L(Msg), io:format("~p:~b ~p ~n", [?MODULE, ?LINE, Msg])).$/;"	d
+L	deps/mysql/src/mysql.erl	/^-define(L(Msg), io:format("~p:~b ~p ~n", [?MODULE, ?LINE, Msg])).$/;"	d
+L	deps/mysql/src/mysql_conn.erl	/^-define(L(Msg), io:format("~p:~b ~p ~n", [?MODULE, ?LINE, Msg])).$/;"	d
+LOCAL_FILES	deps/mysql/.eunit/mysql.erl	/^-define(LOCAL_FILES, 128).$/;"	d
+LOCAL_FILES	deps/mysql/src/mysql.erl	/^-define(LOCAL_FILES, 128).$/;"	d
+LONG_FLAG	deps/mysql/.eunit/mysql_auth.erl	/^-define(LONG_FLAG, 4).$/;"	d
+LONG_FLAG	deps/mysql/src/mysql_auth.erl	/^-define(LONG_FLAG, 4).$/;"	d
+LONG_PASSWORD	deps/mysql/.eunit/mysql_auth.erl	/^-define(LONG_PASSWORD, 1).$/;"	d
+LONG_PASSWORD	deps/mysql/src/mysql_auth.erl	/^-define(LONG_PASSWORD, 1).$/;"	d
+Log	deps/mysql/.eunit/mysql.erl	/^-define(Log(LogFun,Level,Msg),$/;"	d
+Log	deps/mysql/.eunit/mysql_conn.erl	/^-define(Log(LogFun,Level,Msg),$/;"	d
+Log	deps/mysql/src/mysql.erl	/^-define(Log(LogFun,Level,Msg),$/;"	d
+Log	deps/mysql/src/mysql_conn.erl	/^-define(Log(LogFun,Level,Msg),$/;"	d
+Log2	deps/mysql/.eunit/mysql.erl	/^-define(Log2(LogFun,Level,Msg,Params),$/;"	d
+Log2	deps/mysql/.eunit/mysql_conn.erl	/^-define(Log2(LogFun,Level,Msg,Params),$/;"	d
+Log2	deps/mysql/src/mysql.erl	/^-define(Log2(LogFun,Level,Msg,Params),$/;"	d
+Log2	deps/mysql/src/mysql_conn.erl	/^-define(Log2(LogFun,Level,Msg,Params),$/;"	d
+MAX_PACKET_SIZE	deps/mysql/.eunit/mysql_auth.erl	/^-define(MAX_PACKET_SIZE, 1000000).$/;"	d
+MAX_PACKET_SIZE	deps/mysql/src/mysql_auth.erl	/^-define(MAX_PACKET_SIZE, 1000000).$/;"	d
+MIN_EXP	src/mochinum.erl	/^-define(MIN_EXP, -1074).$/;"	d
+MYSQL_4_0	deps/mysql/.eunit/mysql_conn.erl	/^-define(MYSQL_4_0, 40). %% Support for MySQL 4.0.x$/;"	d
+MYSQL_4_0	deps/mysql/src/mysql_conn.erl	/^-define(MYSQL_4_0, 40). %% Support for MySQL 4.0.x$/;"	d
+MYSQL_4_1	deps/mysql/.eunit/mysql_conn.erl	/^-define(MYSQL_4_1, 41). %% Support for MySQL 4.1.x et 5.0.x$/;"	d
+MYSQL_4_1	deps/mysql/src/mysql_conn.erl	/^-define(MYSQL_4_1, 41). %% Support for MySQL 4.1.x et 5.0.x$/;"	d
+MYSQL_QUERY_OP	deps/mysql/.eunit/mysql_conn.erl	/^-define(MYSQL_QUERY_OP, 3).$/;"	d
+MYSQL_QUERY_OP	deps/mysql/src/mysql_conn.erl	/^-define(MYSQL_QUERY_OP, 3).$/;"	d
+PORT	deps/mysql/.eunit/mysql.erl	/^-define(PORT, 3306).$/;"	d
+PORT	deps/mysql/src/mysql.erl	/^-define(PORT, 3306).$/;"	d
 PRODUCT_FOOD_TIME	include/game.hrl	/^-define(PRODUCT_FOOD_TIME, 1000).$/;"	d
-SERVER	.eunit/battle.erl	/^-define(SERVER, ?MODULE).$/;"	d
-SERVER	.eunit/simple_server.erl	/^-define(SERVER, ?MODULE).$/;"	d
-SERVER	.eunit/train_soldier.erl	/^-define(SERVER, ?MODULE).$/;"	d
+PROTOCOL_41	deps/mysql/.eunit/mysql_auth.erl	/^-define(PROTOCOL_41, 512).$/;"	d
+PROTOCOL_41	deps/mysql/src/mysql_auth.erl	/^-define(PROTOCOL_41, 512).$/;"	d
+SECURE_CONNECTION	deps/mysql/.eunit/mysql_auth.erl	/^-define(SECURE_CONNECTION, 32768).$/;"	d
+SECURE_CONNECTION	deps/mysql/.eunit/mysql_conn.erl	/^-define(SECURE_CONNECTION, 32768).$/;"	d
+SECURE_CONNECTION	deps/mysql/.eunit/mysql_recv.erl	/^-define(SECURE_CONNECTION, 32768).$/;"	d
+SECURE_CONNECTION	deps/mysql/src/mysql_auth.erl	/^-define(SECURE_CONNECTION, 32768).$/;"	d
+SECURE_CONNECTION	deps/mysql/src/mysql_conn.erl	/^-define(SECURE_CONNECTION, 32768).$/;"	d
+SECURE_CONNECTION	deps/mysql/src/mysql_recv.erl	/^-define(SECURE_CONNECTION, 32768).$/;"	d
+SERVER	deps/mysql/.eunit/mysql.erl	/^-define(SERVER, mysql_dispatcher).$/;"	d
+SERVER	deps/mysql/src/mysql.erl	/^-define(SERVER, mysql_dispatcher).$/;"	d
 SERVER	src/battle.erl	/^-define(SERVER, ?MODULE).$/;"	d
 SERVER	src/simple_server.erl	/^-define(SERVER, ?MODULE).$/;"	d
 SERVER	src/train_soldier.erl	/^-define(SERVER, ?MODULE).$/;"	d
-SPEND_TIME	.eunit/battle.erl	/^-define(SPEND_TIME,1).$/;"	d
-SPEND_TIME	.eunit/train_soldier.erl	/^-define(SPEND_TIME,1).$/;"	d
 SPEND_TIME	src/battle.erl	/^-define(SPEND_TIME,1).$/;"	d
 SPEND_TIME	src/train_soldier.erl	/^-define(SPEND_TIME,1).$/;"	d
-add_golds	.eunit/train_soldier.erl	/^add_golds(CityId, Golds) ->$/;"	f	module:train_soldier
-add_golds	src/train_soldier.erl	/^add_golds(CityId, Golds) ->$/;"	f	module:train_soldier
-add_soldier	.eunit/train_soldier.erl	/^add_soldier({_, AuthorId}=CityId, Numbers, Type, State) ->$/;"	f	module:train_soldier
-add_soldier	src/train_soldier.erl	/^add_soldier({_, AuthorId}=CityId, Numbers, Type, State) ->$/;"	f	module:train_soldier
-add_train	.eunit/train_soldier.erl	/^add_train(Type, CityId, TrainId, Numbers) ->$/;"	f	module:train_soldier
+STATE_VAR	deps/mysql/.eunit/mysql.erl	/^-define(STATE_VAR, mysql_connection_state).$/;"	d
+STATE_VAR	deps/mysql/.eunit/mysql_conn.erl	/^-define(STATE_VAR, mysql_connection_state).$/;"	d
+STATE_VAR	deps/mysql/src/mysql.erl	/^-define(STATE_VAR, mysql_connection_state).$/;"	d
+STATE_VAR	deps/mysql/src/mysql_conn.erl	/^-define(STATE_VAR, mysql_connection_state).$/;"	d
+TRANSACTIONS	deps/mysql/.eunit/mysql_auth.erl	/^-define(TRANSACTIONS, 8192).$/;"	d
+TRANSACTIONS	deps/mysql/src/mysql_auth.erl	/^-define(TRANSACTIONS, 8192).$/;"	d
+add_conn	deps/mysql/.eunit/mysql.erl	/^add_conn(Conn, State) ->$/;"	f	module:mysql
+add_conn	deps/mysql/src/mysql.erl	/^add_conn(Conn, State) ->$/;"	f	module:mysql
+add_golds	src/train_soldier.erl	/^add_golds({{X, Y}, AuthorId}=_CityId, Golds) ->$/;"	f	module:train_soldier
+add_soldier	src/train_soldier.erl	/^add_soldier({{X, Y}, AuthorId}=_CityId, Numbers, Type, State) ->$/;"	f	module:train_soldier
+add_soldier_queue	src/train_soldier.erl	/^add_soldier_queue({{X, Y}, AuthorId}=_CityId, Numbers, Type, QueueId, State) ->$/;"	f	module:train_soldier
 add_train	src/train_soldier.erl	/^add_train(Type, CityId, TrainId, Numbers) ->$/;"	f	module:train_soldier
-battle	.eunit/battle.erl	/^-module(battle).$/;"	m
+asciz	deps/mysql/.eunit/mysql_conn.erl	/^asciz(Data) when is_binary(Data) ->$/;"	f	module:mysql_conn
+asciz	deps/mysql/.eunit/mysql_conn.erl	/^asciz(Data) when is_list(Data) ->$/;"	f	module:mysql_conn
+asciz	deps/mysql/src/mysql_conn.erl	/^asciz(Data) when is_binary(Data) ->$/;"	f	module:mysql_conn
+asciz	deps/mysql/src/mysql_conn.erl	/^asciz(Data) when is_list(Data) ->$/;"	f	module:mysql_conn
+asciz_binary	deps/mysql/.eunit/mysql.erl	/^asciz_binary(<<0:8, Rest\/binary>>, Acc) ->$/;"	f	module:mysql
+asciz_binary	deps/mysql/.eunit/mysql.erl	/^asciz_binary(<<>>, Acc) ->$/;"	f	module:mysql
+asciz_binary	deps/mysql/.eunit/mysql.erl	/^asciz_binary(<<C:8, Rest\/binary>>, Acc) ->$/;"	f	module:mysql
+asciz_binary	deps/mysql/src/mysql.erl	/^asciz_binary(<<0:8, Rest\/binary>>, Acc) ->$/;"	f	module:mysql
+asciz_binary	deps/mysql/src/mysql.erl	/^asciz_binary(<<>>, Acc) ->$/;"	f	module:mysql
+asciz_binary	deps/mysql/src/mysql.erl	/^asciz_binary(<<C:8, Rest\/binary>>, Acc) ->$/;"	f	module:mysql
+atom_to_binary	deps/mysql/.eunit/mysql_conn.erl	/^atom_to_binary(Val) ->$/;"	f	module:mysql_conn
+atom_to_binary	deps/mysql/src/mysql_conn.erl	/^atom_to_binary(Val) ->$/;"	f	module:mysql_conn
 battle	src/battle.erl	/^-module(battle).$/;"	m
-cancel_train	.eunit/train_soldier.erl	/^cancel_train(Type, CityId, TrainId) ->$/;"	f	module:train_soldier
+bxor_binary	deps/mysql/.eunit/mysql_auth.erl	/^bxor_binary(B1, B2) ->$/;"	f	module:mysql_auth
+bxor_binary	deps/mysql/src/mysql_auth.erl	/^bxor_binary(B1, B2) ->$/;"	f	module:mysql_auth
+call_server	deps/mysql/.eunit/mysql.erl	/^call_server(Msg, Timeout) ->$/;"	f	module:mysql
+call_server	deps/mysql/src/mysql.erl	/^call_server(Msg, Timeout) ->$/;"	f	module:mysql
 cancel_train	src/train_soldier.erl	/^cancel_train(Type, CityId, TrainId) ->$/;"	f	module:train_soldier
-change_capital	.eunit/simple_server.erl	/^change_capital({X, Y}, AuthorId) ->$/;"	f	module:simple_server
 change_capital	src/simple_server.erl	/^change_capital({X, Y}, AuthorId) ->$/;"	f	module:simple_server
-change_peoples	.eunit/simple_server.erl	/^change_peoples(#city{id=CityId, peoples=Peoples, foods=Foods, gold_tax=Tax}=City) ->$/;"	f	module:simple_server
-change_peoples	src/simple_server.erl	/^change_peoples(#city{id=CityId, peoples=Peoples, foods=Foods, gold_tax=Tax}=City) ->$/;"	f	module:simple_server
-change_peoples_test	.eunit/simple_server.erl	/^change_peoples_test() ->$/;"	f	module:simple_server
-change_peoples_test	src/simple_server.erl	/^change_peoples_test() ->$/;"	f	module:simple_server
-change_soldier	.eunit/train_soldier.erl	/^change_soldier(CityId, Numbers, Type) ->$/;"	f	module:train_soldier
-change_soldier	src/train_soldier.erl	/^change_soldier(CityId, Numbers, Type) ->$/;"	f	module:train_soldier
-change_tax	.eunit/simple_server.erl	/^change_tax({X, Y}, AuthorId, Tax) ->$/;"	f	module:simple_server
+change_soldier	src/train_soldier.erl	/^change_soldier({{X, Y}, AuthorId}=CityId, TrainId, Type) ->$/;"	f	module:train_soldier
 change_tax	src/simple_server.erl	/^change_tax({X, Y}, AuthorId, Tax) ->$/;"	f	module:simple_server
 city	include/game.hrl	/^-record(city, {id={{0,0}, author_id=""}, $/;"	r
-code_change	.eunit/battle.erl	/^code_change(_OldVsn, State, _Extra) ->$/;"	f	module:battle
-code_change	.eunit/simple_server.erl	/^code_change(_OldVsn, State, _Extra) ->$/;"	f	module:simple_server
-code_change	.eunit/train_soldier.erl	/^code_change(_OldVsn, State, _Extra) ->$/;"	f	module:train_soldier
+city.i_city_author_id	mysql.sql	/^CREATE INDEX i_city_author_id ON city(author_id(36));$/;"	i
+city.i_city_x_y	mysql.sql	/^CREATE UNIQUE INDEX i_city_x_y ON city(x, y);$/;"	i
+city.i_city_x_y_author_id	mysql.sql	/^CREATE UNIQUE INDEX i_city_x_y_author_id ON city(x, y, author_id(36));$/;"	i
+code_change	deps/mysql/.eunit/mysql.erl	/^code_change(_OldVsn, State, _Extra) ->$/;"	f	module:mysql
+code_change	deps/mysql/src/mysql.erl	/^code_change(_OldVsn, State, _Extra) ->$/;"	f	module:mysql
 code_change	src/battle.erl	/^code_change(_OldVsn, State, _Extra) ->$/;"	f	module:battle
 code_change	src/simple_server.erl	/^code_change(_OldVsn, State, _Extra) ->$/;"	f	module:simple_server
 code_change	src/train_soldier.erl	/^code_change(_OldVsn, State, _Extra) ->$/;"	f	module:train_soldier
-collect_taxes	.eunit/simple_server.erl	/^collect_taxes() ->$/;"	f	module:simple_server
-collect_taxes	.eunit/simple_server.erl	/^collect_taxes(Time) ->$/;"	f	module:simple_server
 collect_taxes	src/simple_server.erl	/^collect_taxes() ->$/;"	f	module:simple_server
 collect_taxes	src/simple_server.erl	/^collect_taxes(Time) ->$/;"	f	module:simple_server
-collect_taxes_test	.eunit/simple_server.erl	/^collect_taxes_test() ->$/;"	f	module:simple_server
-collect_taxes_test	src/simple_server.erl	/^collect_taxes_test() ->$/;"	f	module:simple_server
-complete	.eunit/train_soldier.erl	/^complete(Pid, Type, CityId) ->$/;"	f	module:train_soldier
+collect_taxes_test1	src/simple_server.erl	/^collect_taxes_test1() ->$/;"	f	module:simple_server
+complete	src/battle.erl	/^complete(Pid, CityId) ->$/;"	f	module:battle
 complete	src/train_soldier.erl	/^complete(Pid, Type, CityId) ->$/;"	f	module:train_soldier
-consumer_food	.eunit/train_soldier.erl	/^consumer_food() ->$/;"	f	module:train_soldier
-consumer_food	.eunit/train_soldier.erl	/^consumer_food(Time) ->$/;"	f	module:train_soldier
-consumer_food	.eunit/train_soldier.erl	/^consumer_food(Type, Sum, CityId) ->$/;"	f	module:train_soldier
+conn	deps/mysql/.eunit/mysql.erl	/^-record(conn, {$/;"	r
+conn	deps/mysql/src/mysql.erl	/^-record(conn, {$/;"	r
+connect	deps/mysql/.eunit/mysql.erl	/^connect(PoolId, Host, Port, User, Password, Database, Encoding, Reconnect) ->$/;"	f	module:mysql
+connect	deps/mysql/.eunit/mysql.erl	/^connect(PoolId, Host, Port, User, Password, Database, Encoding, Reconnect,$/;"	f	module:mysql
+connect	deps/mysql/.eunit/mysql.erl	/^connect(PoolId, Host, undefined, User, Password, Database, Reconnect) ->$/;"	f	module:mysql
+connect	deps/mysql/src/mysql.erl	/^connect(PoolId, Host, Port, User, Password, Database, Encoding, Reconnect) ->$/;"	f	module:mysql
+connect	deps/mysql/src/mysql.erl	/^connect(PoolId, Host, Port, User, Password, Database, Encoding, Reconnect,$/;"	f	module:mysql
+connect	deps/mysql/src/mysql.erl	/^connect(PoolId, Host, undefined, User, Password, Database, Reconnect) ->$/;"	f	module:mysql
 consumer_food	src/train_soldier.erl	/^consumer_food() ->$/;"	f	module:train_soldier
 consumer_food	src/train_soldier.erl	/^consumer_food(Time) ->$/;"	f	module:train_soldier
 consumer_food	src/train_soldier.erl	/^consumer_food(Type, Sum, CityId) ->$/;"	f	module:train_soldier
-consumer_food1	.eunit/train_soldier.erl	/^consumer_food1('$end_of_table') ->$/;"	f	module:train_soldier
-consumer_food1	.eunit/train_soldier.erl	/^consumer_food1(Id) ->$/;"	f	module:train_soldier
 consumer_food1	src/train_soldier.erl	/^consumer_food1('$end_of_table') ->$/;"	f	module:train_soldier
 consumer_food1	src/train_soldier.erl	/^consumer_food1(Id) ->$/;"	f	module:train_soldier
-create_city	.eunit/simple_server.erl	/^create_city({X, Y}, AuthorId) ->$/;"	f	module:simple_server
+convert_type	deps/mysql/.eunit/mysql_conn.erl	/^convert_type(Val, ColType) ->$/;"	f	module:mysql_conn
+convert_type	deps/mysql/src/mysql_conn.erl	/^convert_type(Val, ColType) ->$/;"	f	module:mysql_conn
 create_city	src/simple_server.erl	/^create_city({X, Y}, AuthorId) ->$/;"	f	module:simple_server
-create_city_test	.eunit/simple_server.erl	/^create_city_test() ->$/;"	f	module:simple_server
-create_city_test	src/simple_server.erl	/^create_city_test() ->$/;"	f	module:simple_server
-db_init	.eunit/db_init.erl	/^-module(db_init).$/;"	m
-db_init	src/db_init.erl	/^-module(db_init).$/;"	m
-food_crisis	.eunit/simple_server.erl	/^food_crisis(Foods, _CityId) when Foods >0 ->$/;"	f	module:simple_server
-food_crisis	.eunit/simple_server.erl	/^food_crisis(_Foods, CityId) ->$/;"	f	module:simple_server
+create_city_test1	src/simple_server.erl	/^create_city_test1() ->$/;"	f	module:simple_server
+create_pool	src/db.erl	/^create_pool() ->$/;"	f	module:db
+datetime_to_seconds	src/utils.erl	/^datetime_to_seconds(Datetime) when is_list(Datetime) ->$/;"	f	module:utils
+db	src/db.erl	/^-module(db).$/;"	m
+delete	src/db.erl	/^delete(Sql) ->$/;"	f	module:db
+delete_sql	src/db.erl	/^delete_sql(Table, "") ->              $/;"	f	module:db
+delete_sql	src/db.erl	/^delete_sql(Table, Where) ->              $/;"	f	module:db
+digits	src/mochinum.erl	/^digits(0.0) ->$/;"	f	module:mochinum
+digits	src/mochinum.erl	/^digits(Float) ->$/;"	f	module:mochinum
+digits	src/mochinum.erl	/^digits(N) when is_integer(N) ->$/;"	f	module:mochinum
+digits1	src/mochinum.erl	/^digits1(Float, Exp, Frac) ->$/;"	f	module:mochinum
+digits_test	src/mochinum.erl	/^digits_test() ->$/;"	f	module:mochinum
+do_execute	deps/mysql/.eunit/mysql_conn.erl	/^do_execute(State, Name, Params, ExpectedVersion) ->$/;"	f	module:mysql_conn
+do_execute	deps/mysql/src/mysql_conn.erl	/^do_execute(State, Name, Params, ExpectedVersion) ->$/;"	f	module:mysql_conn
+do_execute1	deps/mysql/.eunit/mysql_conn.erl	/^do_execute1(State, Name, Params) ->$/;"	f	module:mysql_conn
+do_execute1	deps/mysql/src/mysql_conn.erl	/^do_execute1(State, Name, Params) ->$/;"	f	module:mysql_conn
+do_fetch	deps/mysql/.eunit/mysql_conn.erl	/^do_fetch(Pid, Queries, From, Timeout) ->$/;"	f	module:mysql_conn
+do_fetch	deps/mysql/src/mysql_conn.erl	/^do_fetch(Pid, Queries, From, Timeout) ->$/;"	f	module:mysql_conn
+do_new_auth	deps/mysql/.eunit/mysql_auth.erl	/^do_new_auth(Sock, RecvPid, SeqNum, User, Password, Salt1, Salt2, LogFun) ->$/;"	f	module:mysql_auth
+do_new_auth	deps/mysql/src/mysql_auth.erl	/^do_new_auth(Sock, RecvPid, SeqNum, User, Password, Salt1, Salt2, LogFun) ->$/;"	f	module:mysql_auth
+do_old_auth	deps/mysql/.eunit/mysql_auth.erl	/^do_old_auth(Sock, RecvPid, SeqNum, User, Password, Salt1, LogFun) ->$/;"	f	module:mysql_auth
+do_old_auth	deps/mysql/src/mysql_auth.erl	/^do_old_auth(Sock, RecvPid, SeqNum, User, Password, Salt1, LogFun) ->$/;"	f	module:mysql_auth
+do_queries	deps/mysql/.eunit/mysql_conn.erl	/^do_queries(Sock, RecvPid, LogFun, Queries, Version) ->$/;"	f	module:mysql_conn
+do_queries	deps/mysql/.eunit/mysql_conn.erl	/^do_queries(State, Queries) ->$/;"	f	module:mysql_conn
+do_queries	deps/mysql/.eunit/mysql_conn.erl	/^do_queries(State, Queries) when not is_list(Queries) ->$/;"	f	module:mysql_conn
+do_queries	deps/mysql/src/mysql_conn.erl	/^do_queries(Sock, RecvPid, LogFun, Queries, Version) ->$/;"	f	module:mysql_conn
+do_queries	deps/mysql/src/mysql_conn.erl	/^do_queries(State, Queries) ->$/;"	f	module:mysql_conn
+do_queries	deps/mysql/src/mysql_conn.erl	/^do_queries(State, Queries) when not is_list(Queries) ->$/;"	f	module:mysql_conn
+do_query	deps/mysql/.eunit/mysql_conn.erl	/^do_query(Sock, RecvPid, LogFun, Query, Version) ->$/;"	f	module:mysql_conn
+do_query	deps/mysql/.eunit/mysql_conn.erl	/^do_query(State, Query) ->$/;"	f	module:mysql_conn
+do_query	deps/mysql/src/mysql_conn.erl	/^do_query(Sock, RecvPid, LogFun, Query, Version) ->$/;"	f	module:mysql_conn
+do_query	deps/mysql/src/mysql_conn.erl	/^do_query(State, Query) ->$/;"	f	module:mysql_conn
+do_recv	deps/mysql/.eunit/mysql_conn.erl	/^do_recv(LogFun, RecvPid, SeqNum)  when is_function(LogFun);$/;"	f	module:mysql_conn
+do_recv	deps/mysql/.eunit/mysql_conn.erl	/^do_recv(LogFun, RecvPid, SeqNum) when is_function(LogFun);$/;"	f	module:mysql_conn
+do_recv	deps/mysql/src/mysql_conn.erl	/^do_recv(LogFun, RecvPid, SeqNum)  when is_function(LogFun);$/;"	f	module:mysql_conn
+do_recv	deps/mysql/src/mysql_conn.erl	/^do_recv(LogFun, RecvPid, SeqNum) when is_function(LogFun);$/;"	f	module:mysql_conn
+do_send	deps/mysql/.eunit/mysql_auth.erl	/^do_send(Sock, Packet, Num, LogFun) ->$/;"	f	module:mysql_auth
+do_send	deps/mysql/.eunit/mysql_conn.erl	/^do_send(Sock, Packet, SeqNum, _LogFun) when is_binary(Packet), is_integer(SeqNum) ->$/;"	f	module:mysql_conn
+do_send	deps/mysql/src/mysql_auth.erl	/^do_send(Sock, Packet, Num, LogFun) ->$/;"	f	module:mysql_auth
+do_send	deps/mysql/src/mysql_conn.erl	/^do_send(Sock, Packet, SeqNum, _LogFun) when is_binary(Packet), is_integer(SeqNum) ->$/;"	f	module:mysql_conn
+do_transaction	deps/mysql/.eunit/mysql_conn.erl	/^do_transaction(State, Fun) ->$/;"	f	module:mysql_conn
+do_transaction	deps/mysql/src/mysql_conn.erl	/^do_transaction(State, Fun) ->$/;"	f	module:mysql_conn
+dualmap	deps/mysql/.eunit/mysql_auth.erl	/^dualmap(F, [E1 | R1], [E2 | R2]) ->$/;"	f	module:mysql_auth
+dualmap	deps/mysql/.eunit/mysql_auth.erl	/^dualmap(_F, [], []) ->$/;"	f	module:mysql_auth
+dualmap	deps/mysql/src/mysql_auth.erl	/^dualmap(F, [E1 | R1], [E2 | R2]) ->$/;"	f	module:mysql_auth
+dualmap	deps/mysql/src/mysql_auth.erl	/^dualmap(_F, [], []) ->$/;"	f	module:mysql_auth
+encode	deps/mysql/.eunit/mysql.erl	/^encode(Val) ->$/;"	f	module:mysql
+encode	deps/mysql/.eunit/mysql.erl	/^encode(Val, _AsBinary) ->$/;"	f	module:mysql
+encode	deps/mysql/.eunit/mysql.erl	/^encode(Val, false) when Val == undefined; Val == null ->$/;"	f	module:mysql
+encode	deps/mysql/.eunit/mysql.erl	/^encode(Val, false) when is_atom(Val) ->$/;"	f	module:mysql
+encode	deps/mysql/.eunit/mysql.erl	/^encode(Val, false) when is_binary(Val) ->$/;"	f	module:mysql
+encode	deps/mysql/.eunit/mysql.erl	/^encode(Val, false) when is_float(Val) ->$/;"	f	module:mysql
+encode	deps/mysql/.eunit/mysql.erl	/^encode(Val, false) when is_integer(Val) ->$/;"	f	module:mysql
+encode	deps/mysql/.eunit/mysql.erl	/^encode(Val, false) when is_list(Val) ->$/;"	f	module:mysql
+encode	deps/mysql/.eunit/mysql.erl	/^encode(Val, true) ->$/;"	f	module:mysql
+encode	deps/mysql/.eunit/mysql.erl	/^encode(Val, true) when Val == undefined; Val == null ->$/;"	f	module:mysql
+encode	deps/mysql/.eunit/mysql.erl	/^encode(Val, true) when is_binary(Val) ->$/;"	f	module:mysql
+encode	deps/mysql/.eunit/mysql.erl	/^encode({Time1, Time2, Time3}, false) ->$/;"	f	module:mysql
+encode	deps/mysql/.eunit/mysql.erl	/^encode({TimeType, Val}, AsBinary)$/;"	f	module:mysql
+encode	deps/mysql/.eunit/mysql.erl	/^encode({datetime, Val}, AsBinary) ->$/;"	f	module:mysql
+encode	deps/mysql/.eunit/mysql.erl	/^encode({{Year, Month, Day}, {Hour, Minute, Second}}, false) ->$/;"	f	module:mysql
+encode	deps/mysql/src/mysql.erl	/^encode(Val) ->$/;"	f	module:mysql
+encode	deps/mysql/src/mysql.erl	/^encode(Val, _AsBinary) ->$/;"	f	module:mysql
+encode	deps/mysql/src/mysql.erl	/^encode(Val, false) when Val == undefined; Val == null ->$/;"	f	module:mysql
+encode	deps/mysql/src/mysql.erl	/^encode(Val, false) when is_atom(Val) ->$/;"	f	module:mysql
+encode	deps/mysql/src/mysql.erl	/^encode(Val, false) when is_binary(Val) ->$/;"	f	module:mysql
+encode	deps/mysql/src/mysql.erl	/^encode(Val, false) when is_float(Val) ->$/;"	f	module:mysql
+encode	deps/mysql/src/mysql.erl	/^encode(Val, false) when is_integer(Val) ->$/;"	f	module:mysql
+encode	deps/mysql/src/mysql.erl	/^encode(Val, false) when is_list(Val) ->$/;"	f	module:mysql
+encode	deps/mysql/src/mysql.erl	/^encode(Val, true) ->$/;"	f	module:mysql
+encode	deps/mysql/src/mysql.erl	/^encode(Val, true) when Val == undefined; Val == null ->$/;"	f	module:mysql
+encode	deps/mysql/src/mysql.erl	/^encode(Val, true) when is_binary(Val) ->$/;"	f	module:mysql
+encode	deps/mysql/src/mysql.erl	/^encode({Time1, Time2, Time3}, false) ->$/;"	f	module:mysql
+encode	deps/mysql/src/mysql.erl	/^encode({TimeType, Val}, AsBinary)$/;"	f	module:mysql
+encode	deps/mysql/src/mysql.erl	/^encode({datetime, Val}, AsBinary) ->$/;"	f	module:mysql
+encode	deps/mysql/src/mysql.erl	/^encode({{Year, Month, Day}, {Hour, Minute, Second}}, false) ->$/;"	f	module:mysql
+execute	deps/mysql/.eunit/mysql.erl	/^execute(Name) ->$/;"	f	module:mysql
+execute	deps/mysql/.eunit/mysql.erl	/^execute(Name, Params) when is_atom(Name), is_list(Params) ->$/;"	f	module:mysql
+execute	deps/mysql/.eunit/mysql.erl	/^execute(PoolId, Name) when is_atom(PoolId), is_atom(Name) ->$/;"	f	module:mysql
+execute	deps/mysql/.eunit/mysql.erl	/^execute(PoolId, Name, Params) when is_list(Params) ->$/;"	f	module:mysql
+execute	deps/mysql/.eunit/mysql.erl	/^execute(PoolId, Name, Params, Timeout) ->$/;"	f	module:mysql
+execute	deps/mysql/.eunit/mysql.erl	/^execute(PoolId, Name, Timeout) when is_integer(Timeout) ->$/;"	f	module:mysql
+execute	deps/mysql/.eunit/mysql_conn.erl	/^execute(Pid, Name, Version, Params, From) ->$/;"	f	module:mysql_conn
+execute	deps/mysql/.eunit/mysql_conn.erl	/^execute(Pid, Name, Version, Params, From, Timeout) ->$/;"	f	module:mysql_conn
+execute	deps/mysql/src/mysql.erl	/^execute(Name) ->$/;"	f	module:mysql
+execute	deps/mysql/src/mysql.erl	/^execute(Name, Params) when is_atom(Name), is_list(Params) ->$/;"	f	module:mysql
+execute	deps/mysql/src/mysql.erl	/^execute(PoolId, Name) when is_atom(PoolId), is_atom(Name) ->$/;"	f	module:mysql
+execute	deps/mysql/src/mysql.erl	/^execute(PoolId, Name, Params) when is_list(Params) ->$/;"	f	module:mysql
+execute	deps/mysql/src/mysql.erl	/^execute(PoolId, Name, Params, Timeout) ->$/;"	f	module:mysql
+execute	deps/mysql/src/mysql.erl	/^execute(PoolId, Name, Timeout) when is_integer(Timeout) ->$/;"	f	module:mysql
+execute	deps/mysql/src/mysql_conn.erl	/^execute(Pid, Name, Version, Params, From) ->$/;"	f	module:mysql_conn
+execute	deps/mysql/src/mysql_conn.erl	/^execute(Pid, Name, Version, Params, From, Timeout) ->$/;"	f	module:mysql_conn
+execute_local	deps/mysql/.eunit/mysql_conn.erl	/^execute_local(State, Name, Params) ->$/;"	f	module:mysql_conn
+execute_local	deps/mysql/src/mysql_conn.erl	/^execute_local(State, Name, Params) ->$/;"	f	module:mysql_conn
+fetch	deps/mysql/.eunit/mysql.erl	/^fetch(PoolId, Query) ->$/;"	f	module:mysql
+fetch	deps/mysql/.eunit/mysql.erl	/^fetch(PoolId, Query, Timeout) -> $/;"	f	module:mysql
+fetch	deps/mysql/.eunit/mysql.erl	/^fetch(Query) ->$/;"	f	module:mysql
+fetch	deps/mysql/.eunit/mysql_conn.erl	/^fetch(Pid, Queries, From) ->$/;"	f	module:mysql_conn
+fetch	deps/mysql/.eunit/mysql_conn.erl	/^fetch(Pid, Queries, From, Timeout)  ->$/;"	f	module:mysql_conn
+fetch	deps/mysql/src/mysql.erl	/^fetch(PoolId, Query) ->$/;"	f	module:mysql
+fetch	deps/mysql/src/mysql.erl	/^fetch(PoolId, Query, Timeout) -> $/;"	f	module:mysql
+fetch	deps/mysql/src/mysql.erl	/^fetch(Query) ->$/;"	f	module:mysql
+fetch	deps/mysql/src/mysql_conn.erl	/^fetch(Pid, Queries, From) ->$/;"	f	module:mysql_conn
+fetch	deps/mysql/src/mysql_conn.erl	/^fetch(Pid, Queries, From, Timeout)  ->$/;"	f	module:mysql_conn
+fetch_local	deps/mysql/.eunit/mysql_conn.erl	/^fetch_local(State, Query) ->$/;"	f	module:mysql_conn
+fetch_local	deps/mysql/src/mysql_conn.erl	/^fetch_local(State, Query) ->$/;"	f	module:mysql_conn
+fetch_queries	deps/mysql/.eunit/mysql.erl	/^fetch_queries(PoolId, From, State, QueryList) ->$/;"	f	module:mysql
+fetch_queries	deps/mysql/src/mysql.erl	/^fetch_queries(PoolId, From, State, QueryList) ->$/;"	f	module:mysql
+fixup	src/mochinum.erl	/^fixup(R, S, MPlus, MMinus, K, LowOk, HighOk) ->$/;"	f	module:mochinum
 food_crisis	src/simple_server.erl	/^food_crisis(Foods, _CityId) when Foods >0 ->$/;"	f	module:simple_server
 food_crisis	src/simple_server.erl	/^food_crisis(_Foods, CityId) ->$/;"	f	module:simple_server
-game_app	.eunit/game_app.erl	/^-module(game_app).$/;"	m
+frexp	src/mochinum.erl	/^frexp(F) ->$/;"	f	module:mochinum
+frexp1	src/mochinum.erl	/^frexp1({Sign, 0, Frac}) ->$/;"	f	module:mochinum
+frexp1	src/mochinum.erl	/^frexp1({Sign, Exp, Frac}) ->$/;"	f	module:mochinum
+frexp1	src/mochinum.erl	/^frexp1({_Sign, 0, 0}) ->$/;"	f	module:mochinum
+frexp_int	src/mochinum.erl	/^frexp_int(F) ->$/;"	f	module:mochinum
+frexp_test	src/mochinum.erl	/^frexp_test() ->$/;"	f	module:mochinum
 game_app	src/game_app.erl	/^-module(game_app).$/;"	m
-game_sup	.eunit/game_sup.erl	/^-module(game_sup).$/;"	m
 game_sup	src/game_sup.erl	/^-module(game_sup).$/;"	m
-get_city	.eunit/simple_server.erl	/^get_city({X, Y}, AuthorId) ->$/;"	f	module:simple_server
+generate	src/mochinum.erl	/^generate(R0, S, MPlus, MMinus, LowOk, HighOk) ->$/;"	f	module:mochinum
 get_city	src/simple_server.erl	/^get_city({X, Y}, AuthorId) ->$/;"	f	module:simple_server
-get_consumer_food	.eunit/train_soldier.erl	/^get_consumer_food("1") ->$/;"	f	module:train_soldier
-get_consumer_food	.eunit/train_soldier.erl	/^get_consumer_food("2") ->$/;"	f	module:train_soldier
-get_consumer_food	.eunit/train_soldier.erl	/^get_consumer_food("3") ->$/;"	f	module:train_soldier
 get_consumer_food	src/train_soldier.erl	/^get_consumer_food("1") ->$/;"	f	module:train_soldier
 get_consumer_food	src/train_soldier.erl	/^get_consumer_food("2") ->$/;"	f	module:train_soldier
 get_consumer_food	src/train_soldier.erl	/^get_consumer_food("3") ->$/;"	f	module:train_soldier
-get_golds	.eunit/simple_server.erl	/^get_golds(Golds) ->$/;"	f	module:simple_server
-get_golds	.eunit/simple_server.erl	/^get_golds(Golds) when Golds < 0 ->$/;"	f	module:simple_server
-get_golds	.eunit/simple_server.erl	/^get_golds(Golds, Rate) ->$/;"	f	module:simple_server
+get_datetime	src/utils.erl	/^get_datetime() ->$/;"	f	module:utils
+get_datetime	src/utils.erl	/^get_datetime(Datetime) ->$/;"	f	module:utils
+get_distance	src/battle.erl	/^get_distance({{X1, Y1}, _}, {{X2, Y2}, _}) ->$/;"	f	module:battle
+get_field	src/db.erl	/^get_field(E, Fields, Len, R) ->$/;"	f	module:db
+get_field	src/db.erl	/^get_field(_E, _Fields, 0, R) ->$/;"	f	module:db
+get_field_datatype	deps/mysql/.eunit/mysql_conn.erl	/^get_field_datatype(0) ->   'DECIMAL';$/;"	f	module:mysql_conn
+get_field_datatype	deps/mysql/.eunit/mysql_conn.erl	/^get_field_datatype(1) ->   'TINY';$/;"	f	module:mysql_conn
+get_field_datatype	deps/mysql/.eunit/mysql_conn.erl	/^get_field_datatype(10) ->  'DATE';$/;"	f	module:mysql_conn
+get_field_datatype	deps/mysql/.eunit/mysql_conn.erl	/^get_field_datatype(11) ->  'TIME';$/;"	f	module:mysql_conn
+get_field_datatype	deps/mysql/.eunit/mysql_conn.erl	/^get_field_datatype(12) ->  'DATETIME';$/;"	f	module:mysql_conn
+get_field_datatype	deps/mysql/.eunit/mysql_conn.erl	/^get_field_datatype(13) ->  'YEAR';$/;"	f	module:mysql_conn
+get_field_datatype	deps/mysql/.eunit/mysql_conn.erl	/^get_field_datatype(14) ->  'NEWDATE';$/;"	f	module:mysql_conn
+get_field_datatype	deps/mysql/.eunit/mysql_conn.erl	/^get_field_datatype(2) ->   'SHORT';$/;"	f	module:mysql_conn
+get_field_datatype	deps/mysql/.eunit/mysql_conn.erl	/^get_field_datatype(246) -> 'NEWDECIMAL';$/;"	f	module:mysql_conn
+get_field_datatype	deps/mysql/.eunit/mysql_conn.erl	/^get_field_datatype(247) -> 'ENUM';$/;"	f	module:mysql_conn
+get_field_datatype	deps/mysql/.eunit/mysql_conn.erl	/^get_field_datatype(248) -> 'SET';$/;"	f	module:mysql_conn
+get_field_datatype	deps/mysql/.eunit/mysql_conn.erl	/^get_field_datatype(249) -> 'TINYBLOB';$/;"	f	module:mysql_conn
+get_field_datatype	deps/mysql/.eunit/mysql_conn.erl	/^get_field_datatype(250) -> 'MEDIUM_BLOG';$/;"	f	module:mysql_conn
+get_field_datatype	deps/mysql/.eunit/mysql_conn.erl	/^get_field_datatype(251) -> 'LONG_BLOG';$/;"	f	module:mysql_conn
+get_field_datatype	deps/mysql/.eunit/mysql_conn.erl	/^get_field_datatype(252) -> 'BLOB';$/;"	f	module:mysql_conn
+get_field_datatype	deps/mysql/.eunit/mysql_conn.erl	/^get_field_datatype(253) -> 'VAR_STRING';$/;"	f	module:mysql_conn
+get_field_datatype	deps/mysql/.eunit/mysql_conn.erl	/^get_field_datatype(254) -> 'STRING';$/;"	f	module:mysql_conn
+get_field_datatype	deps/mysql/.eunit/mysql_conn.erl	/^get_field_datatype(255) -> 'GEOMETRY'.$/;"	f	module:mysql_conn
+get_field_datatype	deps/mysql/.eunit/mysql_conn.erl	/^get_field_datatype(3) ->   'LONG';$/;"	f	module:mysql_conn
+get_field_datatype	deps/mysql/.eunit/mysql_conn.erl	/^get_field_datatype(4) ->   'FLOAT';$/;"	f	module:mysql_conn
+get_field_datatype	deps/mysql/.eunit/mysql_conn.erl	/^get_field_datatype(5) ->   'DOUBLE';$/;"	f	module:mysql_conn
+get_field_datatype	deps/mysql/.eunit/mysql_conn.erl	/^get_field_datatype(6) ->   'NULL';$/;"	f	module:mysql_conn
+get_field_datatype	deps/mysql/.eunit/mysql_conn.erl	/^get_field_datatype(7) ->   'TIMESTAMP';$/;"	f	module:mysql_conn
+get_field_datatype	deps/mysql/.eunit/mysql_conn.erl	/^get_field_datatype(8) ->   'LONGLONG';$/;"	f	module:mysql_conn
+get_field_datatype	deps/mysql/.eunit/mysql_conn.erl	/^get_field_datatype(9) ->   'INT24';$/;"	f	module:mysql_conn
+get_field_datatype	deps/mysql/src/mysql_conn.erl	/^get_field_datatype(0) ->   'DECIMAL';$/;"	f	module:mysql_conn
+get_field_datatype	deps/mysql/src/mysql_conn.erl	/^get_field_datatype(1) ->   'TINY';$/;"	f	module:mysql_conn
+get_field_datatype	deps/mysql/src/mysql_conn.erl	/^get_field_datatype(10) ->  'DATE';$/;"	f	module:mysql_conn
+get_field_datatype	deps/mysql/src/mysql_conn.erl	/^get_field_datatype(11) ->  'TIME';$/;"	f	module:mysql_conn
+get_field_datatype	deps/mysql/src/mysql_conn.erl	/^get_field_datatype(12) ->  'DATETIME';$/;"	f	module:mysql_conn
+get_field_datatype	deps/mysql/src/mysql_conn.erl	/^get_field_datatype(13) ->  'YEAR';$/;"	f	module:mysql_conn
+get_field_datatype	deps/mysql/src/mysql_conn.erl	/^get_field_datatype(14) ->  'NEWDATE';$/;"	f	module:mysql_conn
+get_field_datatype	deps/mysql/src/mysql_conn.erl	/^get_field_datatype(2) ->   'SHORT';$/;"	f	module:mysql_conn
+get_field_datatype	deps/mysql/src/mysql_conn.erl	/^get_field_datatype(246) -> 'NEWDECIMAL';$/;"	f	module:mysql_conn
+get_field_datatype	deps/mysql/src/mysql_conn.erl	/^get_field_datatype(247) -> 'ENUM';$/;"	f	module:mysql_conn
+get_field_datatype	deps/mysql/src/mysql_conn.erl	/^get_field_datatype(248) -> 'SET';$/;"	f	module:mysql_conn
+get_field_datatype	deps/mysql/src/mysql_conn.erl	/^get_field_datatype(249) -> 'TINYBLOB';$/;"	f	module:mysql_conn
+get_field_datatype	deps/mysql/src/mysql_conn.erl	/^get_field_datatype(250) -> 'MEDIUM_BLOG';$/;"	f	module:mysql_conn
+get_field_datatype	deps/mysql/src/mysql_conn.erl	/^get_field_datatype(251) -> 'LONG_BLOG';$/;"	f	module:mysql_conn
+get_field_datatype	deps/mysql/src/mysql_conn.erl	/^get_field_datatype(252) -> 'BLOB';$/;"	f	module:mysql_conn
+get_field_datatype	deps/mysql/src/mysql_conn.erl	/^get_field_datatype(253) -> 'VAR_STRING';$/;"	f	module:mysql_conn
+get_field_datatype	deps/mysql/src/mysql_conn.erl	/^get_field_datatype(254) -> 'STRING';$/;"	f	module:mysql_conn
+get_field_datatype	deps/mysql/src/mysql_conn.erl	/^get_field_datatype(255) -> 'GEOMETRY'.$/;"	f	module:mysql_conn
+get_field_datatype	deps/mysql/src/mysql_conn.erl	/^get_field_datatype(3) ->   'LONG';$/;"	f	module:mysql_conn
+get_field_datatype	deps/mysql/src/mysql_conn.erl	/^get_field_datatype(4) ->   'FLOAT';$/;"	f	module:mysql_conn
+get_field_datatype	deps/mysql/src/mysql_conn.erl	/^get_field_datatype(5) ->   'DOUBLE';$/;"	f	module:mysql_conn
+get_field_datatype	deps/mysql/src/mysql_conn.erl	/^get_field_datatype(6) ->   'NULL';$/;"	f	module:mysql_conn
+get_field_datatype	deps/mysql/src/mysql_conn.erl	/^get_field_datatype(7) ->   'TIMESTAMP';$/;"	f	module:mysql_conn
+get_field_datatype	deps/mysql/src/mysql_conn.erl	/^get_field_datatype(8) ->   'LONGLONG';$/;"	f	module:mysql_conn
+get_field_datatype	deps/mysql/src/mysql_conn.erl	/^get_field_datatype(9) ->   'INT24';$/;"	f	module:mysql_conn
+get_fields	deps/mysql/.eunit/mysql_conn.erl	/^get_fields(LogFun, RecvPid, Res, ?MYSQL_4_0) ->$/;"	f	module:mysql_conn
+get_fields	deps/mysql/.eunit/mysql_conn.erl	/^get_fields(LogFun, RecvPid, Res, ?MYSQL_4_1) ->$/;"	f	module:mysql_conn
+get_fields	deps/mysql/src/mysql_conn.erl	/^get_fields(LogFun, RecvPid, Res, ?MYSQL_4_0) ->$/;"	f	module:mysql_conn
+get_fields	deps/mysql/src/mysql_conn.erl	/^get_fields(LogFun, RecvPid, Res, ?MYSQL_4_1) ->$/;"	f	module:mysql_conn
 get_golds	src/simple_server.erl	/^get_golds(Golds) ->$/;"	f	module:simple_server
 get_golds	src/simple_server.erl	/^get_golds(Golds) when Golds < 0 ->$/;"	f	module:simple_server
 get_golds	src/simple_server.erl	/^get_golds(Golds, Rate) ->$/;"	f	module:simple_server
-get_max_people	.eunit/simple_server.erl	/^get_max_people(Num) when Num < 1000 ->$/;"	f	module:simple_server
-get_max_people	.eunit/simple_server.erl	/^get_max_people(_Num) ->$/;"	f	module:simple_server
+get_id	src/utils.erl	/^get_id() ->$/;"	f	module:utils
+get_lcb	deps/mysql/.eunit/mysql_conn.erl	/^get_lcb(<<251:8, Rest\/binary>>) ->$/;"	f	module:mysql_conn
+get_lcb	deps/mysql/.eunit/mysql_conn.erl	/^get_lcb(<<252:8, Value:16\/little, Rest\/binary>>) ->$/;"	f	module:mysql_conn
+get_lcb	deps/mysql/.eunit/mysql_conn.erl	/^get_lcb(<<253:8, Value:24\/little, Rest\/binary>>) ->$/;"	f	module:mysql_conn
+get_lcb	deps/mysql/.eunit/mysql_conn.erl	/^get_lcb(<<254:8, Value:32\/little, Rest\/binary>>) ->$/;"	f	module:mysql_conn
+get_lcb	deps/mysql/.eunit/mysql_conn.erl	/^get_lcb(<<255:8, Rest\/binary>>) ->$/;"	f	module:mysql_conn
+get_lcb	deps/mysql/.eunit/mysql_conn.erl	/^get_lcb(<<Value:8, Rest\/binary>>) when Value < 251 ->$/;"	f	module:mysql_conn
+get_lcb	deps/mysql/src/mysql_conn.erl	/^get_lcb(<<251:8, Rest\/binary>>) ->$/;"	f	module:mysql_conn
+get_lcb	deps/mysql/src/mysql_conn.erl	/^get_lcb(<<252:8, Value:16\/little, Rest\/binary>>) ->$/;"	f	module:mysql_conn
+get_lcb	deps/mysql/src/mysql_conn.erl	/^get_lcb(<<253:8, Value:24\/little, Rest\/binary>>) ->$/;"	f	module:mysql_conn
+get_lcb	deps/mysql/src/mysql_conn.erl	/^get_lcb(<<254:8, Value:32\/little, Rest\/binary>>) ->$/;"	f	module:mysql_conn
+get_lcb	deps/mysql/src/mysql_conn.erl	/^get_lcb(<<255:8, Rest\/binary>>) ->$/;"	f	module:mysql_conn
+get_lcb	deps/mysql/src/mysql_conn.erl	/^get_lcb(<<Value:8, Rest\/binary>>) when Value < 251 ->$/;"	f	module:mysql_conn
 get_max_people	src/simple_server.erl	/^get_max_people(Num) when Num < 1000 ->$/;"	f	module:simple_server
 get_max_people	src/simple_server.erl	/^get_max_people(_Num) ->$/;"	f	module:simple_server
+get_next_conn	deps/mysql/.eunit/mysql.erl	/^get_next_conn(PoolId, State) ->$/;"	f	module:mysql
+get_next_conn	deps/mysql/src/mysql.erl	/^get_next_conn(PoolId, State) ->$/;"	f	module:mysql
+get_next_train	src/train_soldier.erl	/^get_next_train(Queue) ->$/;"	f	module:train_soldier
+get_pool_id	deps/mysql/.eunit/mysql_conn.erl	/^get_pool_id(State) ->$/;"	f	module:mysql_conn
+get_pool_id	deps/mysql/src/mysql_conn.erl	/^get_pool_id(State) ->$/;"	f	module:mysql_conn
+get_prepared	deps/mysql/.eunit/mysql.erl	/^get_prepared(Name) ->$/;"	f	module:mysql
+get_prepared	deps/mysql/.eunit/mysql.erl	/^get_prepared(Name, Version) ->$/;"	f	module:mysql
+get_prepared	deps/mysql/src/mysql.erl	/^get_prepared(Name) ->$/;"	f	module:mysql
+get_prepared	deps/mysql/src/mysql.erl	/^get_prepared(Name, Version) ->$/;"	f	module:mysql
+get_proplist	src/db.erl	/^get_proplist(Columns, Rows) ->$/;"	f	module:db
+get_query_response	deps/mysql/.eunit/mysql_conn.erl	/^get_query_response(LogFun, RecvPid, Version) ->$/;"	f	module:mysql_conn
+get_query_response	deps/mysql/src/mysql_conn.erl	/^get_query_response(LogFun, RecvPid, Version) ->$/;"	f	module:mysql_conn
+get_queue	src/train_soldier.erl	/^get_queue(CityId, CitiesId) ->$/;"	f	module:train_soldier
+get_random_type	src/battle.erl	/^get_random_type() ->$/;"	f	module:battle
+get_result_affected_rows	deps/mysql/.eunit/mysql.erl	/^get_result_affected_rows(#mysql_result{affectedrows=AffectedRows}) ->$/;"	f	module:mysql
+get_result_affected_rows	deps/mysql/src/mysql.erl	/^get_result_affected_rows(#mysql_result{affectedrows=AffectedRows}) ->$/;"	f	module:mysql
+get_result_field_info	deps/mysql/.eunit/mysql.erl	/^get_result_field_info(#mysql_result{fieldinfo = FieldInfo}) ->$/;"	f	module:mysql
+get_result_field_info	deps/mysql/src/mysql.erl	/^get_result_field_info(#mysql_result{fieldinfo = FieldInfo}) ->$/;"	f	module:mysql
+get_result_insert_id	deps/mysql/.eunit/mysql.erl	/^get_result_insert_id(#mysql_result{insertid=InsertId}) ->$/;"	f	module:mysql
+get_result_insert_id	deps/mysql/src/mysql.erl	/^get_result_insert_id(#mysql_result{insertid=InsertId}) ->$/;"	f	module:mysql
+get_result_reason	deps/mysql/.eunit/mysql.erl	/^get_result_reason(#mysql_result{error=Reason}) ->$/;"	f	module:mysql
+get_result_reason	deps/mysql/src/mysql.erl	/^get_result_reason(#mysql_result{error=Reason}) ->$/;"	f	module:mysql
+get_result_rows	deps/mysql/.eunit/mysql.erl	/^get_result_rows(#mysql_result{rows=AllRows}) ->$/;"	f	module:mysql
+get_result_rows	deps/mysql/src/mysql.erl	/^get_result_rows(#mysql_result{rows=AllRows}) ->$/;"	f	module:mysql
+get_row	deps/mysql/.eunit/mysql_conn.erl	/^get_row([Field | OtherFields], Data, Res) ->$/;"	f	module:mysql_conn
+get_row	deps/mysql/.eunit/mysql_conn.erl	/^get_row([], _Data, Res) ->$/;"	f	module:mysql_conn
+get_row	deps/mysql/src/mysql_conn.erl	/^get_row([Field | OtherFields], Data, Res) ->$/;"	f	module:mysql_conn
+get_row	deps/mysql/src/mysql_conn.erl	/^get_row([], _Data, Res) ->$/;"	f	module:mysql_conn
+get_rows	deps/mysql/.eunit/mysql_conn.erl	/^get_rows(Fields, LogFun, RecvPid, Res) ->$/;"	f	module:mysql_conn
+get_rows	deps/mysql/src/mysql_conn.erl	/^get_rows(Fields, LogFun, RecvPid, Res) ->$/;"	f	module:mysql_conn
 get_soldier	src/battle.erl	/^get_soldier(CityId, {Type, Num}) ->$/;"	f	module:battle
-get_soldier_for_city	.eunit/train_soldier.erl	/^get_soldier_for_city(CityId) ->$/;"	f	module:train_soldier
+get_soldier	src/battle.erl	/^get_soldier(_CityId, {_Type, 0}) ->$/;"	f	module:battle
 get_soldier_for_city	src/train_soldier.erl	/^get_soldier_for_city(CityId) ->$/;"	f	module:train_soldier
-get_spend_golds	.eunit/train_soldier.erl	/^get_spend_golds("1") ->$/;"	f	module:train_soldier
-get_spend_golds	.eunit/train_soldier.erl	/^get_spend_golds("2") ->$/;"	f	module:train_soldier
-get_spend_golds	.eunit/train_soldier.erl	/^get_spend_golds("3") ->$/;"	f	module:train_soldier
 get_spend_golds	src/train_soldier.erl	/^get_spend_golds("1") ->$/;"	f	module:train_soldier
 get_spend_golds	src/train_soldier.erl	/^get_spend_golds("2") ->$/;"	f	module:train_soldier
 get_spend_golds	src/train_soldier.erl	/^get_spend_golds("3") ->$/;"	f	module:train_soldier
-get_spend_time	.eunit/train_soldier.erl	/^get_spend_time("1") ->$/;"	f	module:train_soldier
-get_spend_time	.eunit/train_soldier.erl	/^get_spend_time("2") ->$/;"	f	module:train_soldier
-get_spend_time	.eunit/train_soldier.erl	/^get_spend_time("3") ->$/;"	f	module:train_soldier
+get_spend_time	src/battle.erl	/^get_spend_time(Distance, PikeSoldier, ArcherSoldier, Cavalry) -> $/;"	f	module:battle
 get_spend_time	src/train_soldier.erl	/^get_spend_time("1") ->$/;"	f	module:train_soldier
 get_spend_time	src/train_soldier.erl	/^get_spend_time("2") ->$/;"	f	module:train_soldier
 get_spend_time	src/train_soldier.erl	/^get_spend_time("3") ->$/;"	f	module:train_soldier
-handle_call	.eunit/battle.erl	/^handle_call(_Request, _From, State) ->$/;"	f	module:battle
-handle_call	.eunit/simple_server.erl	/^handle_call(_Request, _From, State) ->$/;"	f	module:simple_server
-handle_call	.eunit/train_soldier.erl	/^handle_call(_Request, _From, State) ->$/;"	f	module:train_soldier
-handle_call	.eunit/train_soldier.erl	/^handle_call({add_train, Type, CityId, TrainId, Numbers}, _From, $/;"	f	module:train_soldier
-handle_call	.eunit/train_soldier.erl	/^handle_call({cancel_train, Type, CityId, TrainId}, _From, $/;"	f	module:train_soldier
+get_with_length	deps/mysql/.eunit/mysql_conn.erl	/^get_with_length(Bin) when is_binary(Bin) ->$/;"	f	module:mysql_conn
+get_with_length	deps/mysql/src/mysql_conn.erl	/^get_with_length(Bin) when is_binary(Bin) ->$/;"	f	module:mysql_conn
+greeting	deps/mysql/.eunit/mysql_conn.erl	/^greeting(Packet, LogFun) ->$/;"	f	module:mysql_conn
+greeting	deps/mysql/src/mysql_conn.erl	/^greeting(Packet, LogFun) ->$/;"	f	module:mysql_conn
+handle_call	deps/mysql/.eunit/mysql.erl	/^handle_call(get_logfun, _From, State) ->$/;"	f	module:mysql
+handle_call	deps/mysql/.eunit/mysql.erl	/^handle_call({add_conn, Conn}, _From, State) ->$/;"	f	module:mysql
+handle_call	deps/mysql/.eunit/mysql.erl	/^handle_call({execute, PoolId, Name, Params}, From, State) ->$/;"	f	module:mysql
+handle_call	deps/mysql/.eunit/mysql.erl	/^handle_call({fetch, PoolId, Query}, From, State) ->$/;"	f	module:mysql
+handle_call	deps/mysql/.eunit/mysql.erl	/^handle_call({get_prepared, Name, Version}, _From, State) ->$/;"	f	module:mysql
+handle_call	deps/mysql/.eunit/mysql.erl	/^handle_call({transaction, PoolId, Fun}, From, State) ->$/;"	f	module:mysql
+handle_call	deps/mysql/src/mysql.erl	/^handle_call(get_logfun, _From, State) ->$/;"	f	module:mysql
+handle_call	deps/mysql/src/mysql.erl	/^handle_call({add_conn, Conn}, _From, State) ->$/;"	f	module:mysql
+handle_call	deps/mysql/src/mysql.erl	/^handle_call({execute, PoolId, Name, Params}, From, State) ->$/;"	f	module:mysql
+handle_call	deps/mysql/src/mysql.erl	/^handle_call({fetch, PoolId, Query}, From, State) ->$/;"	f	module:mysql
+handle_call	deps/mysql/src/mysql.erl	/^handle_call({get_prepared, Name, Version}, _From, State) ->$/;"	f	module:mysql
+handle_call	deps/mysql/src/mysql.erl	/^handle_call({transaction, PoolId, Fun}, From, State) ->$/;"	f	module:mysql
 handle_call	src/battle.erl	/^handle_call(_Request, _From, State) ->$/;"	f	module:battle
 handle_call	src/battle.erl	/^handle_call({send_soldier, FromCity, ToCity, PikeSoldier, $/;"	f	module:battle
 handle_call	src/simple_server.erl	/^handle_call(_Request, _From, State) ->$/;"	f	module:simple_server
 handle_call	src/train_soldier.erl	/^handle_call(_Request, _From, State) ->$/;"	f	module:train_soldier
 handle_call	src/train_soldier.erl	/^handle_call({add_train, Type, CityId, TrainId, Numbers}, _From, $/;"	f	module:train_soldier
 handle_call	src/train_soldier.erl	/^handle_call({cancel_train, Type, CityId, TrainId}, _From, $/;"	f	module:train_soldier
-handle_cast	.eunit/battle.erl	/^handle_cast(_Request, State) ->$/;"	f	module:battle
-handle_cast	.eunit/simple_server.erl	/^handle_cast({collect_taxes}, State) ->$/;"	f	module:simple_server
-handle_cast	.eunit/simple_server.erl	/^handle_cast({consumer_food}, State) ->$/;"	f	module:simple_server
-handle_cast	.eunit/simple_server.erl	/^handle_cast({product_food}, State) ->$/;"	f	module:simple_server
-handle_cast	.eunit/train_soldier.erl	/^handle_cast(_Request, State) ->$/;"	f	module:train_soldier
-handle_cast	.eunit/train_soldier.erl	/^handle_cast({complete, Pid, Type, CityId}, $/;"	f	module:train_soldier
+handle_cast	deps/mysql/.eunit/mysql.erl	/^handle_cast({prepare, Name, Stmt}, State) ->$/;"	f	module:mysql
+handle_cast	deps/mysql/.eunit/mysql.erl	/^handle_cast({unprepare, Name}, State) ->$/;"	f	module:mysql
+handle_cast	deps/mysql/src/mysql.erl	/^handle_cast({prepare, Name, Stmt}, State) ->$/;"	f	module:mysql
+handle_cast	deps/mysql/src/mysql.erl	/^handle_cast({unprepare, Name}, State) ->$/;"	f	module:mysql
 handle_cast	src/battle.erl	/^handle_cast(_Request, State) ->$/;"	f	module:battle
+handle_cast	src/battle.erl	/^handle_cast({complete, Pid, CityId}, #state{pids=Pids, cities_id=CitiesId}=State) ->$/;"	f	module:battle
 handle_cast	src/simple_server.erl	/^handle_cast({collect_taxes}, State) ->$/;"	f	module:simple_server
 handle_cast	src/simple_server.erl	/^handle_cast({consumer_food}, State) ->$/;"	f	module:simple_server
 handle_cast	src/simple_server.erl	/^handle_cast({product_food}, State) ->$/;"	f	module:simple_server
 handle_cast	src/train_soldier.erl	/^handle_cast(_Request, State) ->$/;"	f	module:train_soldier
 handle_cast	src/train_soldier.erl	/^handle_cast({complete, Pid, Type, CityId}, $/;"	f	module:train_soldier
-handle_info	.eunit/battle.erl	/^handle_info(_Info, State) ->$/;"	f	module:battle
-handle_info	.eunit/battle.erl	/^handle_info({'EXIT', From, Reason}, $/;"	f	module:battle
-handle_info	.eunit/battle.erl	/^handle_info({'EXIT', _From, normal}, State) ->$/;"	f	module:battle
-handle_info	.eunit/simple_server.erl	/^handle_info(_Info, State) ->$/;"	f	module:simple_server
-handle_info	.eunit/simple_server.erl	/^handle_info({'EXIT', From, Reason}, State) ->$/;"	f	module:simple_server
-handle_info	.eunit/train_soldier.erl	/^handle_info(_Info, State) ->$/;"	f	module:train_soldier
-handle_info	.eunit/train_soldier.erl	/^handle_info({'EXIT', From, Reason}, $/;"	f	module:train_soldier
-handle_info	.eunit/train_soldier.erl	/^handle_info({'EXIT', _From, normal}, State) ->$/;"	f	module:train_soldier
+handle_info	deps/mysql/.eunit/mysql.erl	/^handle_info({'DOWN', _MonitorRef, process, Pid, Info}, State) ->$/;"	f	module:mysql
+handle_info	deps/mysql/src/mysql.erl	/^handle_info({'DOWN', _MonitorRef, process, Pid, Info}, State) ->$/;"	f	module:mysql
 handle_info	src/battle.erl	/^handle_info(_Info, State) ->$/;"	f	module:battle
-handle_info	src/battle.erl	/^handle_info({'EXIT', From, Reason}, $/;"	f	module:battle
+handle_info	src/battle.erl	/^handle_info({'EXIT', From, Reason}, #state{pids=Pids}=State) ->$/;"	f	module:battle
 handle_info	src/battle.erl	/^handle_info({'EXIT', _From, normal}, State) ->$/;"	f	module:battle
 handle_info	src/simple_server.erl	/^handle_info(_Info, State) ->$/;"	f	module:simple_server
 handle_info	src/simple_server.erl	/^handle_info({'EXIT', From, Reason}, State) ->$/;"	f	module:simple_server
 handle_info	src/train_soldier.erl	/^handle_info(_Info, State) ->$/;"	f	module:train_soldier
 handle_info	src/train_soldier.erl	/^handle_info({'EXIT', From, Reason}, $/;"	f	module:train_soldier
 handle_info	src/train_soldier.erl	/^handle_info({'EXIT', _From, normal}, State) ->$/;"	f	module:train_soldier
-init	.eunit/battle.erl	/^init(_Args) ->$/;"	f	module:battle
-init	.eunit/game_sup.erl	/^init([]) ->$/;"	f	module:game_sup
-init	.eunit/simple_server.erl	/^init(_Args) ->$/;"	f	module:simple_server
-init	.eunit/train_soldier.erl	/^init(_Args) ->$/;"	f	module:train_soldier
+hash	deps/mysql/.eunit/mysql_auth.erl	/^hash(S) ->$/;"	f	module:mysql_auth
+hash	deps/mysql/.eunit/mysql_auth.erl	/^hash([C | S], N1, N2, Add) ->$/;"	f	module:mysql_auth
+hash	deps/mysql/.eunit/mysql_auth.erl	/^hash([], N1, N2, _Add) ->$/;"	f	module:mysql_auth
+hash	deps/mysql/src/mysql_auth.erl	/^hash(S) ->$/;"	f	module:mysql_auth
+hash	deps/mysql/src/mysql_auth.erl	/^hash([C | S], N1, N2, Add) ->$/;"	f	module:mysql_auth
+hash	deps/mysql/src/mysql_auth.erl	/^hash([], N1, N2, _Add) ->$/;"	f	module:mysql_auth
+init	deps/mysql/.eunit/mysql.erl	/^init([PoolId, Host, Port, User, Password, Database, LogFun, Encoding]) ->$/;"	f	module:mysql
+init	deps/mysql/.eunit/mysql_conn.erl	/^init(Host, Port, User, Password, Database, LogFun, Encoding, PoolId, Parent) ->$/;"	f	module:mysql_conn
+init	deps/mysql/.eunit/mysql_recv.erl	/^init(Host, Port, LogFun, Parent) ->$/;"	f	module:mysql_recv
+init	deps/mysql/src/mysql.erl	/^init([PoolId, Host, Port, User, Password, Database, LogFun, Encoding]) ->$/;"	f	module:mysql
+init	deps/mysql/src/mysql_conn.erl	/^init(Host, Port, User, Password, Database, LogFun, Encoding, PoolId, Parent) ->$/;"	f	module:mysql_conn
+init	deps/mysql/src/mysql_recv.erl	/^init(Host, Port, LogFun, Parent) ->$/;"	f	module:mysql_recv
 init	src/battle.erl	/^init(_Args) ->$/;"	f	module:battle
 init	src/game_sup.erl	/^init([]) ->$/;"	f	module:game_sup
 init	src/simple_server.erl	/^init(_Args) ->$/;"	f	module:simple_server
 init	src/train_soldier.erl	/^init(_Args) ->$/;"	f	module:train_soldier
-init_test	.eunit/simple_server.erl	/^init_test() ->$/;"	f	module:simple_server
-init_test	src/simple_server.erl	/^init_test() ->$/;"	f	module:simple_server
-is_empty	.eunit/simple_server.erl	/^is_empty({X, Y}, AuthorId) ->$/;"	f	module:simple_server
-is_empty	.eunit/train_soldier.erl	/^is_empty(CityId, Cities, Max) ->$/;"	f	module:train_soldier
+init_test1	src/simple_server.erl	/^init_test1() ->$/;"	f	module:simple_server
+insert	src/db.erl	/^insert(Sql) ->$/;"	f	module:db
+insert_decimal	src/mochinum.erl	/^insert_decimal(0, S) ->$/;"	f	module:mochinum
+insert_decimal	src/mochinum.erl	/^insert_decimal(Place, S) ->$/;"	f	module:mochinum
+insert_decimal	src/mochinum.erl	/^insert_decimal(Place, S) when Place > -6 ->$/;"	f	module:mochinum
+insert_decimal	src/mochinum.erl	/^insert_decimal(Place, S) when Place > 0 ->$/;"	f	module:mochinum
+insert_decimal_exp	src/mochinum.erl	/^insert_decimal_exp(Place, S) ->$/;"	f	module:mochinum
+insert_sql	src/db.erl	/^insert_sql(Table, Param, Value) ->$/;"	f	module:db
+int_ceil	src/mochinum.erl	/^int_ceil(X) ->$/;"	f	module:mochinum
+int_ceil_test	src/mochinum.erl	/^int_ceil_test() ->$/;"	f	module:mochinum
+int_pow	src/mochinum.erl	/^int_pow(X, N) when N > 0 ->$/;"	f	module:mochinum
+int_pow	src/mochinum.erl	/^int_pow(X, N, R) ->$/;"	f	module:mochinum
+int_pow	src/mochinum.erl	/^int_pow(X, N, R) when N < 2 ->$/;"	f	module:mochinum
+int_pow	src/mochinum.erl	/^int_pow(_X, 0) ->$/;"	f	module:mochinum
+int_pow_test	src/mochinum.erl	/^int_pow_test() ->$/;"	f	module:mochinum
 is_empty	src/simple_server.erl	/^is_empty({X, Y}, AuthorId) ->$/;"	f	module:simple_server
 is_empty	src/train_soldier.erl	/^is_empty(CityId, Cities, Max) ->$/;"	f	module:train_soldier
-is_enough_people_to_train	.eunit/train_soldier.erl	/^is_enough_people_to_train(CityId, Numbers) ->$/;"	f	module:train_soldier
-is_enough_people_to_train	src/train_soldier.erl	/^is_enough_people_to_train(CityId, Numbers) ->$/;"	f	module:train_soldier
+is_enough_people_to_train	src/train_soldier.erl	/^is_enough_people_to_train({{X, Y}, AuthorId}, Numbers) ->$/;"	f	module:train_soldier
 is_enough_soldier_to_battle	src/battle.erl	/^is_enough_soldier_to_battle(CityId, PikeSoldier, ArcherSoldier, Cavalry) ->$/;"	f	module:battle
 is_may_battle	src/battle.erl	/^is_may_battle(CityId, PikeSoldier, ArcherSoldier, Cavalry, CitiesId, Max) ->$/;"	f	module:battle
-is_may_train	.eunit/train_soldier.erl	/^is_may_train(CityId, Cities, Max, Numbers) ->$/;"	f	module:train_soldier
 is_may_train	src/train_soldier.erl	/^is_may_train(CityId, Cities, Max, Numbers) ->$/;"	f	module:train_soldier
-kill_soldier	.eunit/battle.erl	/^kill_soldier(From) ->$/;"	f	module:battle
-kill_soldier	.eunit/battle.erl	/^kill_soldier(To, From) ->$/;"	f	module:battle
-kill_soldier	.eunit/battle.erl	/^kill_soldier(To, _From, 1) ->$/;"	f	module:battle
-kill_soldier	.eunit/battle.erl	/^kill_soldier(_To, From, 2) ->$/;"	f	module:battle
-kill_soldier	src/battle.erl	/^kill_soldier(From) ->$/;"	f	module:battle
-kill_soldier	src/battle.erl	/^kill_soldier(To, From) ->$/;"	f	module:battle
-kill_soldier	src/battle.erl	/^kill_soldier(To, _From, 1) ->$/;"	f	module:battle
-kill_soldier	src/battle.erl	/^kill_soldier(_To, From, 2) ->$/;"	f	module:battle
+join_battle	src/battle.erl	/^join_battle(CityId) ->$/;"	f	module:battle
+kill_soldier	src/battle.erl	/^kill_soldier(CityId) ->$/;"	f	module:battle
+kill_soldier	src/battle.erl	/^kill_soldier(From, To) ->$/;"	f	module:battle
+kill_soldier	src/battle.erl	/^kill_soldier(From, _To, 2) ->$/;"	f	module:battle
+kill_soldier	src/battle.erl	/^kill_soldier(_From, To, 1) ->$/;"	f	module:battle
+log	deps/mysql/.eunit/mysql.erl	/^log(Module, Line, _Level, FormatFun) ->$/;"	f	module:mysql
+log	deps/mysql/src/mysql.erl	/^log(Module, Line, _Level, FormatFun) ->$/;"	f	module:mysql
+log2floor	src/mochinum.erl	/^log2floor(0, N) ->$/;"	f	module:mochinum
+log2floor	src/mochinum.erl	/^log2floor(Int) ->$/;"	f	module:mochinum
+log2floor	src/mochinum.erl	/^log2floor(Int, N) ->$/;"	f	module:mochinum
+loop	deps/mysql/.eunit/mysql_conn.erl	/^loop(State) ->$/;"	f	module:mysql_conn
+loop	deps/mysql/.eunit/mysql_recv.erl	/^loop(State) ->$/;"	f	module:mysql_recv
+loop	deps/mysql/src/mysql_conn.erl	/^loop(State) ->$/;"	f	module:mysql_conn
+loop	deps/mysql/src/mysql_recv.erl	/^loop(State) ->$/;"	f	module:mysql_recv
+make_auth	deps/mysql/.eunit/mysql_auth.erl	/^make_auth(User, Password) ->$/;"	f	module:mysql_auth
+make_auth	deps/mysql/src/mysql_auth.erl	/^make_auth(User, Password) ->$/;"	f	module:mysql_auth
+make_new_auth	deps/mysql/.eunit/mysql_auth.erl	/^make_new_auth(User, Password, Database) ->$/;"	f	module:mysql_auth
+make_new_auth	deps/mysql/src/mysql_auth.erl	/^make_new_auth(User, Password, Database) ->$/;"	f	module:mysql_auth
+make_statements_for_execute	deps/mysql/.eunit/mysql_conn.erl	/^make_statements_for_execute(Name, Params) ->$/;"	f	module:mysql_conn
+make_statements_for_execute	deps/mysql/.eunit/mysql_conn.erl	/^make_statements_for_execute(Name, []) ->$/;"	f	module:mysql_conn
+make_statements_for_execute	deps/mysql/src/mysql_conn.erl	/^make_statements_for_execute(Name, Params) ->$/;"	f	module:mysql_conn
+make_statements_for_execute	deps/mysql/src/mysql_conn.erl	/^make_statements_for_execute(Name, []) ->$/;"	f	module:mysql_conn
 map	include/game.hrl	/^-record(map, {id={{0,0}, author_id=""}, is_empty="1"}).$/;"	r
-product_food	.eunit/simple_server.erl	/^product_food() ->$/;"	f	module:simple_server
-product_food	.eunit/simple_server.erl	/^product_food(Time) ->$/;"	f	module:simple_server
+map.i_map_author_id	mysql.sql	/^CREATE INDEX i_map_author_id ON map(author_id(36));$/;"	i
+map.i_map_x_y	mysql.sql	/^CREATE UNIQUE INDEX i_map_x_y ON map(x, y);$/;"	i
+map.i_map_x_y_author_id	mysql.sql	/^CREATE UNIQUE INDEX i_map_x_y_author_id ON map(x, y, author_id(36));$/;"	i
+mochinum	src/mochinum.erl	/^-module(mochinum).$/;"	m
+mysql	deps/mysql/.eunit/mysql.erl	/^-module(mysql).$/;"	m
+mysql	deps/mysql/src/mysql.erl	/^-module(mysql).$/;"	m
+mysql_auth	deps/mysql/.eunit/mysql_auth.erl	/^-module(mysql_auth).$/;"	m
+mysql_auth	deps/mysql/src/mysql_auth.erl	/^-module(mysql_auth).$/;"	m
+mysql_conn	deps/mysql/.eunit/mysql_conn.erl	/^-module(mysql_conn).$/;"	m
+mysql_conn	deps/mysql/src/mysql_conn.erl	/^-module(mysql_conn).$/;"	m
+mysql_init	deps/mysql/.eunit/mysql_conn.erl	/^mysql_init(Sock, RecvPid, User, Password, LogFun) ->$/;"	f	module:mysql_conn
+mysql_init	deps/mysql/src/mysql_conn.erl	/^mysql_init(Sock, RecvPid, User, Password, LogFun) ->$/;"	f	module:mysql_conn
+mysql_recv	deps/mysql/.eunit/mysql_recv.erl	/^-module(mysql_recv).$/;"	m
+mysql_recv	deps/mysql/src/mysql_recv.erl	/^-module(mysql_recv).$/;"	m
+mysql_result	deps/mysql/src/mysql.hrl	/^-record(mysql_result,$/;"	r
+mysql_test	deps/mysql/.eunit/mysql_test.erl	/^-module(mysql_test).$/;"	m
+mysql_test	deps/mysql/test/mysql_test.erl	/^-module(mysql_test).$/;"	m
+new_conn	deps/mysql/.eunit/mysql.erl	/^new_conn(PoolId, ConnPid, Reconnect, Host, Port, User, Password, Database,$/;"	f	module:mysql
+new_conn	deps/mysql/src/mysql.erl	/^new_conn(PoolId, ConnPid, Reconnect, Host, Port, User, Password, Database,$/;"	f	module:mysql
+normalize_version	deps/mysql/.eunit/mysql_conn.erl	/^normalize_version([$4,$.,$0|_T], LogFun) ->$/;"	f	module:mysql_conn
+normalize_version	deps/mysql/.eunit/mysql_conn.erl	/^normalize_version([$4,$.,$1|_T], _LogFun) ->$/;"	f	module:mysql_conn
+normalize_version	deps/mysql/.eunit/mysql_conn.erl	/^normalize_version([$5|_T], _LogFun) ->$/;"	f	module:mysql_conn
+normalize_version	deps/mysql/.eunit/mysql_conn.erl	/^normalize_version(_Other, LogFun) ->$/;"	f	module:mysql_conn
+normalize_version	deps/mysql/src/mysql_conn.erl	/^normalize_version([$4,$.,$0|_T], LogFun) ->$/;"	f	module:mysql_conn
+normalize_version	deps/mysql/src/mysql_conn.erl	/^normalize_version([$4,$.,$1|_T], _LogFun) ->$/;"	f	module:mysql_conn
+normalize_version	deps/mysql/src/mysql_conn.erl	/^normalize_version([$5|_T], _LogFun) ->$/;"	f	module:mysql_conn
+normalize_version	deps/mysql/src/mysql_conn.erl	/^normalize_version(_Other, LogFun) ->$/;"	f	module:mysql_conn
+password_new	deps/mysql/.eunit/mysql_auth.erl	/^password_new(Password, Salt) ->$/;"	f	module:mysql_auth
+password_new	deps/mysql/.eunit/mysql_auth.erl	/^password_new([], _Salt) ->$/;"	f	module:mysql_auth
+password_new	deps/mysql/src/mysql_auth.erl	/^password_new(Password, Salt) ->$/;"	f	module:mysql_auth
+password_new	deps/mysql/src/mysql_auth.erl	/^password_new([], _Salt) ->$/;"	f	module:mysql_auth
+password_old	deps/mysql/.eunit/mysql_auth.erl	/^password_old(Password, Salt) ->$/;"	f	module:mysql_auth
+password_old	deps/mysql/src/mysql_auth.erl	/^password_old(Password, Salt) ->$/;"	f	module:mysql_auth
+post_start	deps/mysql/.eunit/mysql_conn.erl	/^post_start(Pid, LogFun) ->$/;"	f	module:mysql_conn
+post_start	deps/mysql/src/mysql_conn.erl	/^post_start(Pid, LogFun) ->$/;"	f	module:mysql_conn
+prepare	deps/mysql/.eunit/mysql.erl	/^prepare(Name, Query) ->$/;"	f	module:mysql
+prepare	deps/mysql/src/mysql.erl	/^prepare(Name, Query) ->$/;"	f	module:mysql
+prepare_and_exec	deps/mysql/.eunit/mysql_conn.erl	/^prepare_and_exec(State, Name, Version, Stmt, Params) ->$/;"	f	module:mysql_conn
+prepare_and_exec	deps/mysql/src/mysql_conn.erl	/^prepare_and_exec(State, Name, Version, Stmt, Params) ->$/;"	f	module:mysql_conn
 product_food	src/simple_server.erl	/^product_food() ->$/;"	f	module:simple_server
 product_food	src/simple_server.erl	/^product_food(Time) ->$/;"	f	module:simple_server
-respawn_test	.eunit/battle.erl	/^respawn_test() -> $/;"	f	module:battle
-respawn_test	.eunit/simple_server.erl	/^respawn_test() ->$/;"	f	module:simple_server
-respawn_test	.eunit/train_soldier.erl	/^respawn_test() -> application:start(game),$/;"	f	module:train_soldier
-respawn_test	src/battle.erl	/^respawn_test() -> $/;"	f	module:battle
-respawn_test	src/simple_server.erl	/^respawn_test() ->$/;"	f	module:simple_server
+quote	deps/mysql/.eunit/mysql.erl	/^quote(Bin) when is_binary(Bin) ->$/;"	f	module:mysql
+quote	deps/mysql/.eunit/mysql.erl	/^quote(String) when is_list(String) ->$/;"	f	module:mysql
+quote	deps/mysql/.eunit/mysql.erl	/^quote([$\\\\ | Rest], Acc) ->$/;"	f	module:mysql
+quote	deps/mysql/.eunit/mysql.erl	/^quote([0 | Rest], Acc) ->$/;"	f	module:mysql
+quote	deps/mysql/.eunit/mysql.erl	/^quote([10 | Rest], Acc) ->$/;"	f	module:mysql
+quote	deps/mysql/.eunit/mysql.erl	/^quote([13 | Rest], Acc) ->$/;"	f	module:mysql
+quote	deps/mysql/.eunit/mysql.erl	/^quote([26 | Rest], Acc) ->$/;"	f	module:mysql
+quote	deps/mysql/.eunit/mysql.erl	/^quote([34 | Rest], Acc) ->		%% 34 is $"$/;"	f	module:mysql
+quote	deps/mysql/.eunit/mysql.erl	/^quote([39 | Rest], Acc) ->		%% 39 is $'$/;"	f	module:mysql
+quote	deps/mysql/.eunit/mysql.erl	/^quote([C | Rest], Acc) ->$/;"	f	module:mysql
+quote	deps/mysql/.eunit/mysql.erl	/^quote([], Acc) ->$/;"	f	module:mysql
+quote	deps/mysql/src/mysql.erl	/^quote(Bin) when is_binary(Bin) ->$/;"	f	module:mysql
+quote	deps/mysql/src/mysql.erl	/^quote(String) when is_list(String) ->$/;"	f	module:mysql
+quote	deps/mysql/src/mysql.erl	/^quote([$\\\\ | Rest], Acc) ->$/;"	f	module:mysql
+quote	deps/mysql/src/mysql.erl	/^quote([0 | Rest], Acc) ->$/;"	f	module:mysql
+quote	deps/mysql/src/mysql.erl	/^quote([10 | Rest], Acc) ->$/;"	f	module:mysql
+quote	deps/mysql/src/mysql.erl	/^quote([13 | Rest], Acc) ->$/;"	f	module:mysql
+quote	deps/mysql/src/mysql.erl	/^quote([26 | Rest], Acc) ->$/;"	f	module:mysql
+quote	deps/mysql/src/mysql.erl	/^quote([34 | Rest], Acc) ->		%% 34 is $"$/;"	f	module:mysql
+quote	deps/mysql/src/mysql.erl	/^quote([39 | Rest], Acc) ->		%% 39 is $'$/;"	f	module:mysql
+quote	deps/mysql/src/mysql.erl	/^quote([C | Rest], Acc) ->$/;"	f	module:mysql
+quote	deps/mysql/src/mysql.erl	/^quote([], Acc) ->$/;"	f	module:mysql
+reconnect_loop	deps/mysql/.eunit/mysql.erl	/^reconnect_loop(Conn, LogFun, N) ->$/;"	f	module:mysql
+reconnect_loop	deps/mysql/src/mysql.erl	/^reconnect_loop(Conn, LogFun, N) ->$/;"	f	module:mysql
+remove_conn	deps/mysql/.eunit/mysql.erl	/^remove_conn(Pid, State) ->$/;"	f	module:mysql
+remove_conn	deps/mysql/src/mysql.erl	/^remove_conn(Pid, State) ->$/;"	f	module:mysql
+remove_pid_from_list	deps/mysql/.eunit/mysql.erl	/^remove_pid_from_list(Pid, Conns) ->$/;"	f	module:mysql
+remove_pid_from_list	deps/mysql/src/mysql.erl	/^remove_pid_from_list(Pid, Conns) ->$/;"	f	module:mysql
+remove_pid_from_lists	deps/mysql/.eunit/mysql.erl	/^remove_pid_from_lists(Pid, Conns1, Conns2) ->$/;"	f	module:mysql
+remove_pid_from_lists	deps/mysql/src/mysql.erl	/^remove_pid_from_lists(Pid, Conns1, Conns2) ->$/;"	f	module:mysql
 respawn_test	src/train_soldier.erl	/^respawn_test() -> application:start(game),$/;"	f	module:train_soldier
+respawn_test1	src/battle.erl	/^respawn_test1() -> $/;"	f	module:battle
+respawn_test1	src/simple_server.erl	/^respawn_test1() ->$/;"	f	module:simple_server
+rnd	deps/mysql/.eunit/mysql_auth.erl	/^rnd(0, List, _, _) ->$/;"	f	module:mysql_auth
+rnd	deps/mysql/.eunit/mysql_auth.erl	/^rnd(N, List, Seed1, Seed2) ->$/;"	f	module:mysql_auth
+rnd	deps/mysql/.eunit/mysql_auth.erl	/^rnd(N, Seed1, Seed2) ->$/;"	f	module:mysql_auth
+rnd	deps/mysql/src/mysql_auth.erl	/^rnd(0, List, _, _) ->$/;"	f	module:mysql_auth
+rnd	deps/mysql/src/mysql_auth.erl	/^rnd(N, List, Seed1, Seed2) ->$/;"	f	module:mysql_auth
+rnd	deps/mysql/src/mysql_auth.erl	/^rnd(N, Seed1, Seed2) ->$/;"	f	module:mysql_auth
+rollback	deps/mysql/.eunit/mysql_conn.erl	/^rollback(State, Err) ->$/;"	f	module:mysql_conn
+rollback	deps/mysql/src/mysql_conn.erl	/^rollback(State, Err) ->$/;"	f	module:mysql_conn
+scale	src/mochinum.erl	/^scale(R, S, MPlus, MMinus, LowOk, HighOk, Float) ->$/;"	f	module:mochinum
+select	src/db.erl	/^select(Sql) ->$/;"	f	module:db
+select_sql	src/db.erl	/^select_sql(Table, Param, "") ->$/;"	f	module:db
+select_sql	src/db.erl	/^select_sql(Table, Param, Where) ->$/;"	f	module:db
+send_msg	deps/mysql/.eunit/mysql_conn.erl	/^send_msg(Pid, Msg, From, Timeout) ->$/;"	f	module:mysql_conn
+send_msg	deps/mysql/src/mysql_conn.erl	/^send_msg(Pid, Msg, From, Timeout) ->$/;"	f	module:mysql_conn
+send_reply	deps/mysql/.eunit/mysql_conn.erl	/^send_reply(GenSrvFrom, Res) ->$/;"	f	module:mysql_conn
+send_reply	deps/mysql/.eunit/mysql_conn.erl	/^send_reply(GenSrvFrom, Res) when is_pid(GenSrvFrom) ->$/;"	f	module:mysql_conn
+send_reply	deps/mysql/src/mysql_conn.erl	/^send_reply(GenSrvFrom, Res) ->$/;"	f	module:mysql_conn
+send_reply	deps/mysql/src/mysql_conn.erl	/^send_reply(GenSrvFrom, Res) when is_pid(GenSrvFrom) ->$/;"	f	module:mysql_conn
 send_soldier	src/battle.erl	/^send_soldier(From, To, PikeSoldier, ArcherSoldier, Cavalry) ->$/;"	f	module:battle
-simple_server	.eunit/simple_server.erl	/^-module(simple_server).$/;"	m
+sendpacket	deps/mysql/.eunit/mysql_recv.erl	/^sendpacket(Parent, Data) ->$/;"	f	module:mysql_recv
+sendpacket	deps/mysql/src/mysql_recv.erl	/^sendpacket(Parent, Data) ->$/;"	f	module:mysql_recv
 simple_server	src/simple_server.erl	/^-module(simple_server).$/;"	m
 soldier	include/game.hrl	/^-record(soldier, {id={"","", ""}::{CityId::city_id(), $/;"	r
-spend_golds	.eunit/train_soldier.erl	/^spend_golds(Type, CityId) ->$/;"	f	module:train_soldier
-spend_golds	src/train_soldier.erl	/^spend_golds(Type, CityId) ->$/;"	f	module:train_soldier
-start	.eunit/db_init.erl	/^start() ->$/;"	f	module:db_init
-start	.eunit/game_app.erl	/^start(_StartType, _StartArgs) ->$/;"	f	module:game_app
-start	src/db_init.erl	/^start() ->$/;"	f	module:db_init
+soldier.i_soldier_author_id	mysql.sql	/^CREATE INDEX i_soldier_author_id ON soldier(author_id(36));$/;"	i
+soldier.i_soldier_state	mysql.sql	/^CREATE INDEX i_soldier_state ON soldier(state);$/;"	i
+soldier.i_soldier_x_y_id_author_id	mysql.sql	/^CREATE INDEX i_soldier_x_y_id_author_id ON soldier(x, y, author_id);$/;"	i
+soldier.i_soldier_x_y_id_author_id_type	mysql.sql	/^CREATE UNIQUE INDEX i_soldier_x_y_id_author_id_type ON soldier(x, y, author_id, type);$/;"	i
+soldier.i_soldier_x_y_id_author_id_type_state	mysql.sql	/^CREATE UNIQUE INDEX i_soldier_x_y_id_author_id_type_state ON soldier(x, y, author_id, type, state);$/;"	i
+soldier_queue.i_soldier_queue_author_id	mysql.sql	/^CREATE INDEX i_soldier_queue_author_id ON soldier_queue(author_id(36));$/;"	i
+soldier_queue.i_soldier_queue_x_y_id_author_id	mysql.sql	/^CREATE INDEX i_soldier_queue_x_y_id_author_id ON soldier_queue(x, y, author_id);$/;"	i
+soldier_queue.i_soldier_queue_x_y_id_author_id_type	mysql.sql	/^CREATE INDEX i_soldier_queue_x_y_id_author_id_type ON soldier_queue(x, y, author_id, type);$/;"	i
+soldier_queue.i_soldier_queue_x_y_id_author_id_type_queue_id	mysql.sql	/^CREATE UNIQUE INDEX i_soldier_queue_x_y_id_author_id_type_queue_id ON soldier_queue(x, y, author_id, type, queue_id);$/;"	i
+spend_golds	src/train_soldier.erl	/^spend_golds(Type, {{X, Y}, AuthorId}=CityId, Numbers) ->$/;"	f	module:train_soldier
+start	deps/mysql/.eunit/mysql.erl	/^start(PoolId, Host, Port, User, Password, Database) ->$/;"	f	module:mysql
+start	deps/mysql/.eunit/mysql.erl	/^start(PoolId, Host, Port, User, Password, Database, LogFun) ->$/;"	f	module:mysql
+start	deps/mysql/.eunit/mysql.erl	/^start(PoolId, Host, Port, User, Password, Database, LogFun, Encoding) ->$/;"	f	module:mysql
+start	deps/mysql/.eunit/mysql.erl	/^start(PoolId, Host, User, Password, Database) ->$/;"	f	module:mysql
+start	deps/mysql/.eunit/mysql.erl	/^start(PoolId, Host, undefined, User, Password, Database, LogFun) ->$/;"	f	module:mysql
+start	deps/mysql/.eunit/mysql.erl	/^start(PoolId, Host, undefined, User, Password, Database, LogFun, Encoding) ->$/;"	f	module:mysql
+start	deps/mysql/.eunit/mysql_conn.erl	/^start(Host, Port, User, Password, Database, LogFun, Encoding, PoolId) ->$/;"	f	module:mysql_conn
+start	deps/mysql/src/mysql.erl	/^start(PoolId, Host, Port, User, Password, Database) ->$/;"	f	module:mysql
+start	deps/mysql/src/mysql.erl	/^start(PoolId, Host, Port, User, Password, Database, LogFun) ->$/;"	f	module:mysql
+start	deps/mysql/src/mysql.erl	/^start(PoolId, Host, Port, User, Password, Database, LogFun, Encoding) ->$/;"	f	module:mysql
+start	deps/mysql/src/mysql.erl	/^start(PoolId, Host, User, Password, Database) ->$/;"	f	module:mysql
+start	deps/mysql/src/mysql.erl	/^start(PoolId, Host, undefined, User, Password, Database, LogFun) ->$/;"	f	module:mysql
+start	deps/mysql/src/mysql.erl	/^start(PoolId, Host, undefined, User, Password, Database, LogFun, Encoding) ->$/;"	f	module:mysql
+start	deps/mysql/src/mysql_conn.erl	/^start(Host, Port, User, Password, Database, LogFun, Encoding, PoolId) ->$/;"	f	module:mysql_conn
+start	src/db.erl	/^start() ->$/;"	f	module:db
 start	src/game_app.erl	/^start(_StartType, _StartArgs) ->$/;"	f	module:game_app
-start_link	.eunit/battle.erl	/^start_link() ->$/;"	f	module:battle
-start_link	.eunit/game_sup.erl	/^start_link() ->$/;"	f	module:game_sup
-start_link	.eunit/simple_server.erl	/^start_link() ->$/;"	f	module:simple_server
-start_link	.eunit/train_soldier.erl	/^start_link() ->$/;"	f	module:train_soldier
+start1	deps/mysql/.eunit/mysql.erl	/^start1(PoolId, Host, Port, User, Password, Database, LogFun, Encoding,$/;"	f	module:mysql
+start1	deps/mysql/src/mysql.erl	/^start1(PoolId, Host, Port, User, Password, Database, LogFun, Encoding,$/;"	f	module:mysql
+start_link	deps/mysql/.eunit/mysql.erl	/^start_link(PoolId, Host, Port, User, Password, Database) ->$/;"	f	module:mysql
+start_link	deps/mysql/.eunit/mysql.erl	/^start_link(PoolId, Host, Port, User, Password, Database, LogFun) ->$/;"	f	module:mysql
+start_link	deps/mysql/.eunit/mysql.erl	/^start_link(PoolId, Host, Port, User, Password, Database, LogFun, Encoding) ->$/;"	f	module:mysql
+start_link	deps/mysql/.eunit/mysql.erl	/^start_link(PoolId, Host, User, Password, Database) ->$/;"	f	module:mysql
+start_link	deps/mysql/.eunit/mysql.erl	/^start_link(PoolId, Host, undefined, User, Password, Database, LogFun) ->$/;"	f	module:mysql
+start_link	deps/mysql/.eunit/mysql.erl	/^start_link(PoolId, Host, undefined, User, Password, Database, LogFun,$/;"	f	module:mysql
+start_link	deps/mysql/.eunit/mysql_conn.erl	/^start_link(Host, Port, User, Password, Database, LogFun, Encoding, PoolId) ->$/;"	f	module:mysql_conn
+start_link	deps/mysql/.eunit/mysql_recv.erl	/^start_link(Host, Port, LogFun, Parent) when is_list(Host), is_integer(Port) ->$/;"	f	module:mysql_recv
+start_link	deps/mysql/src/mysql.erl	/^start_link(PoolId, Host, Port, User, Password, Database) ->$/;"	f	module:mysql
+start_link	deps/mysql/src/mysql.erl	/^start_link(PoolId, Host, Port, User, Password, Database, LogFun) ->$/;"	f	module:mysql
+start_link	deps/mysql/src/mysql.erl	/^start_link(PoolId, Host, Port, User, Password, Database, LogFun, Encoding) ->$/;"	f	module:mysql
+start_link	deps/mysql/src/mysql.erl	/^start_link(PoolId, Host, User, Password, Database) ->$/;"	f	module:mysql
+start_link	deps/mysql/src/mysql.erl	/^start_link(PoolId, Host, undefined, User, Password, Database, LogFun) ->$/;"	f	module:mysql
+start_link	deps/mysql/src/mysql.erl	/^start_link(PoolId, Host, undefined, User, Password, Database, LogFun,$/;"	f	module:mysql
+start_link	deps/mysql/src/mysql_conn.erl	/^start_link(Host, Port, User, Password, Database, LogFun, Encoding, PoolId) ->$/;"	f	module:mysql_conn
+start_link	deps/mysql/src/mysql_recv.erl	/^start_link(Host, Port, LogFun, Parent) when is_list(Host), is_integer(Port) ->$/;"	f	module:mysql_recv
 start_link	src/battle.erl	/^start_link() ->$/;"	f	module:battle
 start_link	src/game_sup.erl	/^start_link() ->$/;"	f	module:game_sup
 start_link	src/simple_server.erl	/^start_link() ->$/;"	f	module:simple_server
 start_link	src/train_soldier.erl	/^start_link() ->$/;"	f	module:train_soldier
-state	.eunit/battle.erl	/^-record(state, {pids = dict:new(), $/;"	r
-state	.eunit/train_soldier.erl	/^-record(state, {pids = dict:new(), $/;"	r
+start_reconnect	deps/mysql/.eunit/mysql.erl	/^start_reconnect(Conn, LogFun) ->$/;"	f	module:mysql
+start_reconnect	deps/mysql/src/mysql.erl	/^start_reconnect(Conn, LogFun) ->$/;"	f	module:mysql
+state	deps/mysql/.eunit/mysql.erl	/^-record(state, {$/;"	r
+state	deps/mysql/.eunit/mysql_conn.erl	/^-record(state, {$/;"	r
+state	deps/mysql/.eunit/mysql_recv.erl	/^-record(state, {$/;"	r
+state	deps/mysql/src/mysql.erl	/^-record(state, {$/;"	r
+state	deps/mysql/src/mysql_conn.erl	/^-record(state, {$/;"	r
+state	deps/mysql/src/mysql_recv.erl	/^-record(state, {$/;"	r
 state	src/battle.erl	/^-record(state, {pids = dict:new(), $/;"	r
 state	src/train_soldier.erl	/^-record(state, {pids = dict:new(), $/;"	r
-stop	.eunit/game_app.erl	/^stop(_State) ->$/;"	f	module:game_app
 stop	src/game_app.erl	/^stop(_State) ->$/;"	f	module:game_app
-terminate	.eunit/battle.erl	/^terminate(_Reason, _State) ->$/;"	f	module:battle
-terminate	.eunit/simple_server.erl	/^terminate(_Reason, _State) ->$/;"	f	module:simple_server
-terminate	.eunit/train_soldier.erl	/^terminate(_Reason, _State) ->$/;"	f	module:train_soldier
+terminate	deps/mysql/.eunit/mysql.erl	/^terminate(Reason, State) ->$/;"	f	module:mysql
+terminate	deps/mysql/src/mysql.erl	/^terminate(Reason, State) ->$/;"	f	module:mysql
 terminate	src/battle.erl	/^terminate(_Reason, _State) ->$/;"	f	module:battle
 terminate	src/simple_server.erl	/^terminate(_Reason, _State) ->$/;"	f	module:simple_server
 terminate	src/train_soldier.erl	/^terminate(_Reason, _State) ->$/;"	f	module:train_soldier
-to_battle	.eunit/battle.erl	/^to_battle(FromCityId, ToCityId) ->$/;"	f	module:battle
-to_battle	src/battle.erl	/^to_battle(FromCityId, ToCityId) ->$/;"	f	module:battle
-train	.eunit/train_soldier.erl	/^train(Type, CityId, Time) ->$/;"	f	module:train_soldier
+test	deps/mysql/.eunit/mysql_test.erl	/^test() ->$/;"	f	module:mysql_test
+test	deps/mysql/test/mysql_test.erl	/^test() ->$/;"	f	module:mysql_test
+to_back	src/battle.erl	/^to_back(CityId) ->$/;"	f	module:battle
+to_battle	src/battle.erl	/^to_battle(FromCityId, ToCityId, PikeSoldier, ArcherSoldier, Cavalry) ->$/;"	f	module:battle
+to_forward	src/battle.erl	/^to_forward(Soldier, Num, Sum) ->$/;"	f	module:battle
 train	src/train_soldier.erl	/^train(Type, CityId, Time) ->$/;"	f	module:train_soldier
-train_soldier	.eunit/train_soldier.erl	/^-module(train_soldier).$/;"	m
 train_soldier	src/train_soldier.erl	/^-module(train_soldier).$/;"	m
+train_soldier_queue	src/train_soldier.erl	/^train_soldier_queue({{X, Y}, AuthorId}=CityId, Numbers, Type, TrainId) ->$/;"	f	module:train_soldier
+transaction	deps/mysql/.eunit/mysql.erl	/^transaction(PoolId, Fun) ->$/;"	f	module:mysql
+transaction	deps/mysql/.eunit/mysql.erl	/^transaction(PoolId, Fun, Timeout) ->$/;"	f	module:mysql
+transaction	deps/mysql/.eunit/mysql_conn.erl	/^transaction(Pid, Fun, From) ->$/;"	f	module:mysql_conn
+transaction	deps/mysql/.eunit/mysql_conn.erl	/^transaction(Pid, Fun, From, Timeout) ->$/;"	f	module:mysql_conn
+transaction	deps/mysql/src/mysql.erl	/^transaction(PoolId, Fun) ->$/;"	f	module:mysql
+transaction	deps/mysql/src/mysql.erl	/^transaction(PoolId, Fun, Timeout) ->$/;"	f	module:mysql
+transaction	deps/mysql/src/mysql_conn.erl	/^transaction(Pid, Fun, From) ->$/;"	f	module:mysql_conn
+transaction	deps/mysql/src/mysql_conn.erl	/^transaction(Pid, Fun, From, Timeout) ->$/;"	f	module:mysql_conn
+transaction	src/db.erl	/^transaction(Fun) ->$/;"	f	module:db
+transform_digits	src/mochinum.erl	/^transform_digits(Place, Digits) ->$/;"	f	module:mochinum
+transform_digits	src/mochinum.erl	/^transform_digits(Place, [0 | Rest]) ->$/;"	f	module:mochinum
+two_digits	deps/mysql/.eunit/mysql.erl	/^two_digits(Num) ->$/;"	f	module:mysql
+two_digits	deps/mysql/.eunit/mysql.erl	/^two_digits(Nums) when is_list(Nums) ->$/;"	f	module:mysql
+two_digits	deps/mysql/src/mysql.erl	/^two_digits(Num) ->$/;"	f	module:mysql
+two_digits	deps/mysql/src/mysql.erl	/^two_digits(Nums) when is_list(Nums) ->$/;"	f	module:mysql
+unpack	src/mochinum.erl	/^unpack(Float) ->$/;"	f	module:mochinum
+unprepare	deps/mysql/.eunit/mysql.erl	/^unprepare(Name) ->$/;"	f	module:mysql
+unprepare	deps/mysql/src/mysql.erl	/^unprepare(Name) ->$/;"	f	module:mysql
+update	src/db.erl	/^update(Sql) ->$/;"	f	module:db
+update_sql	src/db.erl	/^update_sql(Table, Param, "") ->              $/;"	f	module:db
+update_sql	src/db.erl	/^update_sql(Table, Param, Where) ->              $/;"	f	module:db
+utils	src/utils.erl	/^-module(utils).$/;"	m
+with_next_conn	deps/mysql/.eunit/mysql.erl	/^with_next_conn(PoolId, State, Fun) ->$/;"	f	module:mysql
+with_next_conn	deps/mysql/src/mysql.erl	/^with_next_conn(PoolId, State, Fun) ->$/;"	f	module:mysql

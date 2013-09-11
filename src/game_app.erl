@@ -10,8 +10,8 @@
 %% ===================================================================
 
 start(_StartType, _StartArgs) ->
-    application:start(mnesia),
-    db_init:start(),
+    %application:start(mnesia),
+    db:start(),
     game_sup:start_link().
 
 stop(_State) ->

@@ -6,8 +6,10 @@
         error_logger:error_msg(Input ++ "~n", Args)).
 
 -define(PRODUCT_FOOD_TIME, 1000).
--define(CONSUMER_FOOD_TIME, 1000).
--define(COLLECT_TAXES_TIME, 2000).
+%-define(CONSUMER_FOOD_TIME, 1000).
+%-define(COLLECT_TAXES_TIME, 1000).
+-define(CONSUMER_FOOD_TIME, 60000).
+-define(COLLECT_TAXES_TIME, 60000).
 
 -record(map, {id={{0,0}, author_id=""}, is_empty="1"}).
 -record(city, {id={{0,0}, author_id=""}, 

@@ -8,6 +8,7 @@
 
 -export([start_link/0]).
 
+%-define(SPEND_TIME,2).
 -define(SPEND_TIME,1).
 %-define(SPEND_TIME,1000).
 %% ------------------------------------------------------------------
@@ -22,7 +23,9 @@
          cancel_train/3,
          train/3,
          add_golds/2,
+         add_soldier/4,
          get_soldier_for_city/1,
+         get_train_soldier_for_city/1,
          consumer_food/1,
          is_empty/3,
          complete/3
@@ -75,30 +78,34 @@ train(Type, CityId, Time) ->
 
 -spec add_golds(CityId::city_id(), Golds::integer()) -> 
             ok|{error, Reason::term()}.
-add_golds(CityId, Golds) ->
-    case mnesia:dirty_read(city, CityId) of
-        [] -> {error, "the city not exists"};
-        [City] ->
-            mnesia:dirty_write(City#city{golds=Golds});
+add_golds({{X, Y}, AuthorId}=_CityId, Golds) ->
+    Where = ["x='", X, "' and ",
+             "y='", Y, "' and ",
+             "author_id='", AuthorId, "'"],
+    Update = ["golds=golds+'", Golds,"'"],
+    Sql = db:update_sql("city", Update, Where),
+    case db:update(Sql) of
+        {ok, _Num} ->
+            ok;
         Error ->
-            ?DEBUG("~p:add_golds ~p Error=~p", [?MODULE, ?LINE, Error])
+            ?DEBUG("~p:update ~p Error=~p", [?MODULE, ?LINE, Error]),
+            {error, Error}
     end.
 
 -spec get_soldier_for_city(CityId::city_id()) -> [soldier()].
-get_soldier_for_city(CityId) ->
-    Soldiers = mnesia:dirty_index_read(soldier, CityId, city_id),
-    CurrentTime = calendar:datetime_to_gregorian_seconds(calendar:local_time()),
-    Fun = fun(#soldier{state=2, time=Time}=Soldier)->
-                 RemainSecond = 
-                     CurrentTime - calendar:datetime_to_gregorian_seconds(Time),
-                 Soldier#soldier{time=RemainSecond};
-             (Soldier)->
-                 Soldier#soldier{time=0}
-                
-          end,
-    Result = lists:map(Fun, Soldiers),
-    ?DEBUG("~p:get_soldier_for_city ~p Result=~p", [?MODULE, ?LINE, Result]),
-    Result.
+get_soldier_for_city({{X, Y}, AuthorId}) ->
+    Where = ["x='", X, "' and ",
+             "y='", Y, "' and ",
+             "author_id='", AuthorId, "'"],
+    Sql = db:select_sql("soldier", ["type, state, soldier_sum"], Where),
+    db:select(Sql).
+    
+get_train_soldier_for_city({{X, Y}, AuthorId}) ->
+    Where = ["x='", X, "' and ",
+             "y='", Y, "' and ",
+             "author_id='", AuthorId, "'"],
+    Sql = db:select_sql("soldier_queue", ["type, state, soldier_sum", "time"], Where),
+    db:select(Sql).
 
 
     
@@ -113,24 +120,25 @@ init(_Args) ->
 handle_call({cancel_train, Type, CityId, TrainId}, _From, 
         #state{pids=Pids, cities_id=CitiesId,
                trains_id=TrainsId}=State) ->
+    ?DEBUG("~p:handle_call ~p cancle_train TrainId=~p State=~p",
+           [?MODULE, ?LINE, TrainId, State]),
     ?DEBUG("~p:handle_call ~p cancel_train TrainId=~p, TrainsId=~p",
         [?MODULE, ?LINE, TrainId, dict:to_list(TrainsId)]),
-    R=dict:is_key(TrainId, TrainsId),
-    ?DEBUG("~p:handle_call ~p cancel_train R=~p", [?MODULE, ?LINE, R]),
     case dict:is_key(TrainId, TrainsId) of
         false ->
             ?DEBUG("~p:handle_call ~p cancel_train", [?MODULE, ?LINE]),
-            NewState = State;
+            NewCitiesId = delete_from_queue(CityId, CitiesId, Type, TrainId),
+            delete_solder_queue(CityId, Type, TrainId),
+            NewState = State#state{cities_id=NewCitiesId};
         true ->
             ?DEBUG("~p:handle_call ~p cancel_train", [?MODULE, ?LINE]),
-            NewCitiesId = dict:update_counter(CityId, -1, CitiesId),
+            NewCitiesId = delete_from_queue(CityId, CitiesId, Type, TrainId),
+            delete_solder_queue(CityId, Type, TrainId),
             {Pid} = dict:fetch(TrainId, TrainsId),
-            {train, Type, CityId, TrainId, Numbers} = dict:fetch(Pid, Pids),
+            {train, Type, CityId, TrainId, _Numbers} = dict:fetch(Pid, Pids),
             Pid ! cancel_train,
             NewPids = dict:erase(Pid, Pids),
             NewTrainsId = dict:erase(TrainId, TrainsId),
-            [City] = mnesia:dirty_read(city, CityId),
-            mnesia:dirty_write(City#city{peoples=Numbers+City#city.peoples}),
             NewState = State#state{pids = NewPids,
                                    trains_id = NewTrainsId,
                                    cities_id = NewCitiesId}
@@ -146,18 +154,32 @@ handle_call({add_train, Type, CityId, TrainId, Numbers}, _From,
     case is_may_train(CityId, CitiesId, Max, Numbers) of
         ok ->
             SpendTime = get_spend_time(Type),
-            case spend_golds(Type, CityId) of
+            case spend_golds(Type, CityId, Numbers) of
                 ok ->
                     ?DEBUG("~p:handle_call ~p add_train ", [?MODULE, ?LINE]),
-                    Pid = spawn_link(?MODULE, train, [Type, CityId, SpendTime]),
-                    NewPids = dict:store(Pid, {train, Type, CityId, TrainId, Numbers}, Pids),
-                    NewCitiesId = dict:update_counter(CityId, 1, CitiesId),
-                    NewTrainsId = dict:store(TrainId, {Pid}, TrainsId),
-                    add_soldier(CityId, Numbers, Type, "2"),
+                    Queue = get_queue(CityId, CitiesId),
+                    Args = {train, Type, CityId, TrainId, Numbers},
+                    QueueElement = {train, Type, CityId, TrainId, Numbers, SpendTime},
+                    NewQueue = queue:in(QueueElement, Queue),
+                    {NewCitiesId, NewPids, NewTrainsId} = 
+                        case dict:size(Pids) of
+                            0->
+                                Pid = spawn_link(?MODULE, train, [Type, CityId, SpendTime]),
+                                train_soldier_queue(CityId, Numbers, Type, TrainId),
+                                {dict:store(CityId, NewQueue, CitiesId),
+                                 dict:store(Pid, Args, Pids),
+                                 dict:store(TrainId, {Pid}, TrainsId)};
+                            _ -> 
+                                add_soldier_queue(CityId, Numbers, Type, TrainId, "1"),
+                                {dict:store(CityId, NewQueue, CitiesId),
+                                 Pids,
+                                 TrainsId}
+                        end,
                     NewState = State#state{pids = NewPids, 
                                            cities_id = NewCitiesId,
                                            trains_id = NewTrainsId
                                            };
+
                 Error1 ->
                     ?ERROR("~p:handle_call ~p add_train Error1=~p", [?MODULE, ?LINE, Error1]),
                     NewState = State
@@ -174,16 +196,40 @@ handle_cast({complete, Pid, Type, CityId},
             #state{pids=Pids, 
                    cities_id=CitiesId,
                    trains_id=TrainsId }=State) ->
+    ?DEBUG("~p:handle_call ~p complete _train Pid=~p State=~p",
+           [?MODULE, ?LINE, Pid, State]),
     case dict:is_key(Pid, Pids) of
         true ->
-            {train, Type, CityId, TrainId, Numbers} = dict:fetch(Pid, Pids),
-            NewCitiesId = dict:update_counter(CityId, -1, CitiesId),
-            NewPids = dict:erase(Pid, Pids),
-            NewTrainsId = dict:erase(TrainId, TrainsId),
-            change_soldier(CityId, Numbers, Type),
-            NewState = State#state{pids=NewPids, 
-                                   cities_id=NewCitiesId, 
-                                   trains_id=NewTrainsId};
+            {train, Type, CityId, TrainId, _Numbers} = dict:fetch(Pid, Pids),
+            ?DEBUG("~p:handle_cast complete ~p TrainId=~p", [?MODULE, ?LINE, TrainId]),
+            Queue = get_queue(CityId, CitiesId),
+            {_, NewQueue} = queue:out(Queue),
+            NewCitiesId = dict:store(CityId, NewQueue, CitiesId),
+            change_soldier(CityId, TrainId, Type),
+            case get_next_train(NewQueue) of
+                empty ->
+                    NewPids = dict:erase(Pid, Pids),
+                    NewTrainsId = dict:erase(TrainId, TrainsId),
+                    NewState = State#state{pids=NewPids, 
+                                           cities_id=NewCitiesId, 
+                                           trains_id=NewTrainsId};
+                {train, NextType, NextCityId, NextTrainId, NextNumbers, NextSpendTime} ->
+                    ?DEBUG("~p:handle_cast complete ~p NextTrainId=~p, TrainId=~p", 
+                            [?MODULE, ?LINE, NextTrainId, TrainId]),
+                    NextPid = spawn_link(?MODULE, train, [NextType, NextCityId, NextSpendTime]),
+                    NewNextTrainsId = dict:store(NextTrainId, {NextPid}, 
+                                                 dict:erase(TrainId, TrainsId)),
+                    ?DEBUG("~p:handle_cast complete ~p NewNextTrainsId=~p", 
+                            [?MODULE, ?LINE, dict:to_list(NewNextTrainsId)]),
+                    Args = {train, NextType, NextCityId, NextTrainId, NextNumbers},
+                    NewNextPids =dict:store(NextPid, Args, dict:erase(Pid, Pids)),
+                    train_soldier_queue(NextCityId, NextNumbers, NextType, NextTrainId),
+                    NewState = State#state{pids = NewNextPids, 
+                                           cities_id = NewCitiesId,
+                                           trains_id = NewNextTrainsId}
+
+                    
+            end;
         false -> NewState = State
     end,
     {noreply, NewState};
@@ -227,22 +273,27 @@ code_change(_OldVsn, State, _Extra) ->
 complete(Pid, Type, CityId) ->
     gen_server:cast(?SERVER, {complete, Pid, Type, CityId}).
 
--spec spend_golds(Type::string(), CityId::city_id()) -> 
+-spec spend_golds(Type::string(), CityId::city_id(), Numbers::integer()) -> 
         ok|{error, Error::term()}.
-spend_golds(Type, CityId) ->
-    SpendGolds = get_spend_golds(Type),
+spend_golds(Type, {{X, Y}, AuthorId}=CityId, Numbers) ->
+    SpendGolds = get_spend_golds(Type)*Numbers,
     ?DEBUG("~p:spend_golds ~p Type=~p, CityId=~p, SpendGolds=~p",
             [?MODULE, ?LINE, Type, CityId, SpendGolds]),
-    case mnesia:dirty_read(city, CityId) of
-        [] -> 
-            {error, "the city not exits"};
-        [#city{golds=Golds}=City] when Golds >=SpendGolds ->
+    Where = ["x='", X, "' and ",
+             "y='", Y, "' and ",
+             "author_id='", AuthorId, "'"],
+    Sql = db:select_sql("city", ["golds"], Where),
+    case db:select(Sql) of
+        [] -> {error, "the city is not exists"};
+        [[{"golds", Golds}]] when Golds >=SpendGolds ->
             ?DEBUG("~p:spend_golds ~p Type=~p, CityId=~p, SpendGolds=~p, Golds=~p",
             [?MODULE, ?LINE, Type, CityId, SpendGolds, Golds]),
-            R = mnesia:dirty_write(City#city{golds = Golds-SpendGolds}),
-            ?DEBUG("~p:spend_golds ~p R=~p", [?MODULE, ?LINE, R]),
+            Set = ["golds=golds-'", SpendGolds, "'"],
+            UpdateSql = db:update_sql("city", Set, Where),
+            ?DEBUG("~p:spend_golds ~p UpdateSql=~p", [?MODULE, ?LINE, UpdateSql]),
+            {ok, _}=db:update(UpdateSql),
             ok;
-        [#city{golds=Golds}] when Golds <SpendGolds ->
+        [[{"golds", Golds}]] when Golds <SpendGolds ->
             ?DEBUG("~p:spend_golds ~p Type=~p, CityId=~p, SpendGolds=~p, Golds=~p",
             [?MODULE, ?LINE, Type, CityId, SpendGolds, Golds]),
             {error, "not enough glods"};
@@ -270,7 +321,7 @@ is_may_train(CityId, Cities, Max, Numbers) ->
 is_empty(CityId, Cities, Max) ->
     case dict:is_key(CityId, Cities) of
         true ->
-            case dict:fetch(CityId, Cities) of
+            case queue:len(dict:fetch(CityId, Cities)) of
                 Value when Value < Max -> 
                     ?DEBUG("~p:is_empty ~p Value=~p", [?MODULE, ?LINE, Value]),
                     ok;
@@ -284,85 +335,134 @@ is_empty(CityId, Cities, Max) ->
 
 -spec is_enough_people_to_train(CityId::city_id(), Numbers::integer()) ->
         ok|{error, Error::term()}.
-is_enough_people_to_train(CityId, Numbers) ->
-    case mnesia:dirty_read(city, CityId) of
+is_enough_people_to_train({{X, Y}, AuthorId}, Numbers) ->
+    Where = ["x='", X, "' and ",
+             "y='", Y, "' and ",
+             "author_id='", AuthorId, "'"],
+    Sql = db:select_sql("city", ["people"], Where),
+    case db:select(Sql) of
         [] -> {error, "the city is not exists"};
-        [#city{peoples=Peoples}=City] when Peoples >= Numbers->
-            mnesia:dirty_write(City#city{peoples=Peoples-Numbers}),
+        [[{"people", Peoples}]] when Peoples >= Numbers->
+            Set = ["people=people-'", Numbers, "'"],
+            UpdateSql = db:update_sql("city", Set, Where),
+            {ok, _}=db:update(UpdateSql),
             ok;
-        [#city{peoples=Peoples}] when Peoples < Numbers->
-            {error, "the city is not enough"};
+        [[{"people", Peoples}]] when Peoples < Numbers->
+            {error, "the city is not enough peoples"};
         Error ->
             ?ERROR("~p:is_enough_people_to_train ~p Error=~p", 
                     [?MODULE, ?LINE, Error]),
             {error, Error}
     end.
     
--spec change_soldier(CityId::city_id(), Numbers::integer(), Type::string()) ->
+-spec change_soldier(CityId::city_id(), TrainId::string(), Type::string()) ->
         ok|{error, Error::term()}.
-change_soldier(CityId, Numbers, Type) ->
+change_soldier({{X, Y}, AuthorId}=CityId, TrainId, Type) ->
     ?DEBUG("~p:change_soldier ~p", [?MODULE, ?LINE]),
-    case mnesia:dirty_read(soldier, {CityId, "2", Type}) of
+    Where = ["x='", X, "' and ",
+             "y='", Y, "' and ",
+             "queue_id='", TrainId, "' and ",
+             "author_id='", AuthorId, "'"],
+    SelSql = db:select_sql("soldier_queue", ["soldier_sum"], Where),
+    ?DEBUG("~p:change_soldier ~p SelSql=~p", [?MODULE, ?LINE, SelSql]),
+    case db:select(SelSql) of
         [] -> ok;
-        [#soldier{sum=Sum}=Soldier] when Sum >=Numbers ->
-            mnesia:dirty_write(Soldier#soldier{sum=Sum-Numbers}),
-            add_soldier(CityId, Numbers, Type, "3");
-        [#soldier{sum=Sum}=Soldier] when Sum <Numbers ->
-            mnesia:dirty_write(Soldier#soldier{sum=0}),
-            add_soldier(CityId, Numbers, Type, "3")
+        [[{"soldier_sum", Sum}]] ->
+            DelSql = db:delete_sql("soldier_queue", Where),
+            ?DEBUG("~p:change_soldier ~p SelDql=~p", [?MODULE, ?LINE, DelSql]),
+            {ok, _}=db:delete(DelSql),
+            add_soldier(CityId, Sum, Type, "3")
     end.
 
 -spec add_soldier(CityId::city_id(), Numbers::integer(), 
                   Type::string(), State::string()) ->
         ok|{error, Error::term()}.
-add_soldier({_, AuthorId}=CityId, Numbers, Type, State) ->
-    case mnesia:dirty_read(soldier, {CityId, State, Type}) of
+add_soldier({{X, Y}, AuthorId}=_CityId, Numbers, Type, State) ->
+    Fields = ["soldier_sum"],
+    Where = ["x='", X, "' and ",
+             "y='", Y, "' and ",
+             "author_id='", AuthorId, "' and ",
+             "type='", Type, "' and ",
+             "state='", State, "'"],
+    Sql = db:select_sql("soldier", Fields, Where),
+    %TODO reduce city people 
+    case db:select(Sql) of
         [] ->
-            Soldier = #soldier{id={CityId, State, Type},
-                               author_id_state={AuthorId, State},
-                               author_id = AuthorId,
-                               city_id = CityId,
-                               type=Type,
-                               state = State,
-                               sum=Numbers,
-                               time=calendar:local_time()
-                               },
-            mnesia:dirty_write(Soldier);
-        [#soldier{sum=Sum}=Soldier] ->
-            NewSoldier = 
-                Soldier#soldier{id={CityId, State, Type},
-                                author_id = AuthorId,
-                                author_id_state={AuthorId, State},
-                                city_id = CityId,
-                                type=Type,
-                                state = State,
-                                sum=Numbers+Sum},
-            mnesia:dirty_write(NewSoldier)
+            Value = ["'", X, "',",
+                     "'", Y, "',",
+                     "'", AuthorId, "',",
+                     "'", Type, "',",
+                     "'", Numbers, "',",
+                     "'", State, "'"],
+            FieldsInsert = ["x, y, author_id, type, soldier_sum, state"],
+            SqlInsert =db:insert_sql("soldier", FieldsInsert, Value),
+            db:insert(SqlInsert);
+        [[{"soldier_sum", _Sum}]] ->
+            SetFields = ["soldier_sum=soldier_sum+'", Numbers, "'"],
+            SqlUpdate = db:update_sql("soldier", SetFields, Where),
+            db:update(SqlUpdate)
+    end.
+
+
+-spec train_soldier_queue(CityId::city_id(), Numbers::integer(), 
+                  Type::string(), QueueId::string()) ->
+        ok|{error, Error::term()}.
+train_soldier_queue({{X, Y}, AuthorId}=CityId, Numbers, Type, TrainId) ->
+    ?DEBUG("~p:train_soldier_queue ~p", [?MODULE, ?LINE]),
+    Where = ["x='", X, "' and ",
+             "y='", Y, "' and ",
+             "author_id='", AuthorId, "' and ",
+             "type='", Type, "' and ",
+             "queue_id='", TrainId, "'"],
+    Sql = db:select_sql("soldier_queue", ["id"], Where),
+    case db:select(Sql) of
+        [] -> add_soldier_queue(CityId, Numbers, Type, TrainId, "2");
+        [[{"id", _Id}]] ->
+            UpdateSql = db:update_sql("soldier_queue", [" state='2' "], Where),
+            {ok, _}=db:update(UpdateSql)
+    end.
+    
+
+
+-spec add_soldier_queue(CityId::city_id(), Numbers::integer(), 
+                  Type::string(), QueueId::string(), State::string()) ->
+        ok|{error, Error::term()}.
+add_soldier_queue({{X, Y}, AuthorId}=_CityId, Numbers, Type, QueueId, State) ->
+    Fields = ["x, y, author_id, type, soldier_sum, queue_id, state, time"], 
+    Value = ["'", X, "',",
+             "'", Y, "',",
+             "'", AuthorId, "',",
+             "'", Type, "',",
+             "'", Numbers, "',",
+             "'", QueueId, "',",
+             "'", State, "',",
+             "'", utils:get_datetime(), "'"],
+    SqlSoldier = db:insert_sql("soldier_queue", Fields, Value),
+    ?DEBUG("~p:add_soldier_queue ~p SqlSoldier=~p", [?MODULE, ?LINE, SqlSoldier]),
+    case db:insert(SqlSoldier) of
+        {ok, _Num, _Sum} ->
+            ok;
+        Error ->
+            ?ERROR("~p:add_soldier_queue ~p Error=~p", 
+                    [?MODULE, ?LINE, Error]),
+            {error, Error}
     end.
         
 consumer_food() ->
-    Key = mnesia:dirty_first(soldier),
-    consumer_food1(Key).
-consumer_food1('$end_of_table') ->
-    ok;
-consumer_food1(Id) ->
-    case mnesia:dirty_read(soldier, Id) of
-        [#soldier{type=Type, state="3", sum=Sum, city_id=CityId}] ->
-            consumer_food(Type, Sum, CityId);
-        _Other -> ok
-    end,
-    Key = mnesia:dirty_next(soldier, Id),
-    consumer_food1(Key).
-    
--spec consumer_food(Type::string(), Sum::integer(), CityId::city_id()) ->ok.
-consumer_food(Type, Sum, CityId) ->
-    ConsumerFoods = get_consumer_food(Type) * Sum,
-    case mnesia:dirty_read(city, CityId) of
-        [#city{foods=Foods}=City] when Foods>=ConsumerFoods->
-            mnesia:dirty_write(City#city{foods=Foods-ConsumerFoods});
-        [#city{foods=Foods}=City] when Foods<ConsumerFoods->
-            mnesia:dirty_write(City#city{foods=0})
-    end.
+    consumer_food1("1"),
+    consumer_food1("2"),
+    consumer_food1("3"),
+    db:update("update city set foods=0, is_food_crisis='1' "++
+              " where foods <0 or foods is null;").
+
+consumer_food1(Type) ->
+    ConsumerFoods = get_consumer_food(Type),
+    Sql = 
+        lists:concat(["update city c set c.foods=c.foods-(select sum(soldier_sum)* ",
+                       ConsumerFoods,
+                      " from soldier s where s.x=c.x and s.y=c.y and ",
+                      " s.type= '",Type,"' group by  s.x, s.y ) ;"]),
+    {ok, _}=db:update(Sql).
 
 get_consumer_food("1") ->
     10;
@@ -387,8 +487,48 @@ get_spend_time("2") ->
 get_spend_time("3") ->
     50*60*?SPEND_TIME.
     
+-spec get_next_train(Queue::queue()) -> {train, list()}.
+get_next_train(Queue) ->
+    case queue:out(Queue) of
+        {empty,{[],[]}} ->
+            empty;
+        {{value, Value}, _Queue} ->
+            Value
+    end.
 
+-spec get_queue(CityId::city_id(), CitiesId::dict()) ->queue().
+get_queue(CityId, CitiesId) ->
+    case dict:is_key(CityId, CitiesId) of
+        true -> dict:fetch(CityId, CitiesId);
+        false -> queue:new()
+    end.
 
+-spec delete_from_queue(CityId::city_id(), CitiesId::dict(), 
+                        Type::string(), TrainId::string()) -> dict().
+delete_from_queue(CityIdParm, CitiesId, TypeParm, TrainIdParm) ->
+    Queue = get_queue(CityIdParm, CitiesId),
+    Fun = fun({train, Type, CityId, TrainId, _Numbers, _SpendTime}) ->
+                case {CityIdParm, TypeParm, TrainIdParm} of
+                    {CityId, Type, TrainId} -> false;
+                    _Other -> true
+                end
+          end,
+    NewQueue = queue:filter(Fun, Queue),
+    dict:store(CityIdParm, NewQueue, CitiesId).
+    
+    
+-spec delete_solder_queue(CityId::city_id(), Type::string(), TrainId::string()) ->
+            ok|{error, term()}.
+delete_solder_queue({{X, Y}, AuthorId}, Type, TrainId) ->
+    Where = ["x='", X, "' and ",
+             "y='", Y, "' and ",
+             "author_id='", AuthorId, "' and ",
+             "type='", Type, " ' and ",
+             "queue_id='", TrainId, " ' and ",
+             "author_id='", AuthorId, "'"],
+    Sql = db:delete_sql("soldier_queue", Where),
+    db:delete(Sql).
+    
 
 -ifdef(TEST).
 -include_lib("eunit/include/eunit.hrl").
@@ -404,13 +544,14 @@ respawn_test1() -> application:start(game),
     simple_server:create_city({X, Y}, AuthorId),
     simple_server:create_city({X, Y2}, AuthorId),
     add_golds({{X, Y}, AuthorId}, 1),
+    db:update("update city set foods='1000'"),
     NotEnoughGlods = add_train("2", {{X, Y}, AuthorId}, "2", 5),
-    add_golds({{X, Y}, AuthorId}, 23),
+    add_golds({{X, Y}, AuthorId}, 3003),
     CityId = {{X, Y}, AuthorId},
     ok = add_train("1", {{X, Y}, AuthorId}, "3", 5),
-    ok = add_train("3", {{X, Y}, AuthorId}, "4", 5),
-    ok = add_train("1", {{X, Y}, AuthorId}, "5", 5),
-    ok = add_train("1", {{X, Y}, AuthorId}, "6", 500),
+    ok = add_train("2", {{X, Y}, AuthorId}, "4", 5),
+    ok = add_train("3", {{X, Y}, AuthorId}, "5", 5),
+    ok = add_train("1", {{X, Y}, AuthorId}, "6", 500), %%%
     ok = add_train("2", {{X, Y}, AuthorId}, "7", 5),
     ok = add_train("2", {{X, Y}, AuthorId}, "8", 5),
     ok = add_train("1", {{X, Y}, AuthorId}, "9", 5),
@@ -420,11 +561,15 @@ respawn_test1() -> application:start(game),
     get_soldier_for_city(CityId),
     ok = add_train("1", {{X, Y}, AuthorId}, "11", 5),
     get_soldier_for_city(CityId),
-    cancel_train("3", {{X, Y}, AuthorId}, "4"),
-    cancel_train("1", {{X, Y}, AuthorId}, "11"),
-    complete(self(), "1", {{X, Y}, AuthorId}),
-    cancel_train("4", {{X, Y2}, AuthorId}, "10"),
-    receive after 1000 -> ok end,
+    get_train_soldier_for_city(CityId),
+    receive after 3*60*?SPEND_TIME -> ok end,
+    cancel_train("3", {{X, Y}, AuthorId}, "5"),
+    cancel_train("2", {{X, Y}, AuthorId}, "4"),
+    cancel_train("2", {{X, Y}, AuthorId}, "7"),
+%    cancel_train("1", {{X, Y}, AuthorId}, "11"),
+%    complete(self(), "1", {{X, Y}, AuthorId}),
+%    cancel_train("4", {{X, Y2}, AuthorId}, "10"),
+ %   receive after 1000 -> ok end,
     [?assertMatch(ok, ok),
      ?assertMatch(1,1)
     ].

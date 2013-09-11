@@ -18,7 +18,6 @@
 -export([create_city/2,
          get_city/2,
          change_tax/3,
-         change_peoples/1,
          change_capital/2,
          collect_taxes/1,
          product_food/1,
@@ -37,8 +36,17 @@ create_city({X, Y}, AuthorId) ->
     ?DEBUG("~p:create_city ~p {X, Y}=~p, AuthorId=~p", [?MODULE, ?LINE, {X, Y}, AuthorId]),
     case is_empty({X, Y}, AuthorId) of
         "1" ->
-            mnesia:dirty_write(#city{id={{X, Y}, AuthorId}, author_id=AuthorId}),
-            mnesia:dirty_write(#map{id={{X,Y}, AuthorId}, is_empty="0"}),
+            Fun=fun() ->
+                    InsertMap = db:insert_sql("map", 
+                                              ['x,', 'y,', 'author_id'],
+                                              ["'", X, "','", Y, "','", AuthorId, "'"]),
+                    db:insert(InsertMap),
+                    Fields = ['x,', 'y,', 'author_id'],
+                    Values = ["'", X, "','", Y, "','", AuthorId, "'"],
+                    InsertCity = db:insert_sql("city", Fields, Values),
+                    db:insert(InsertCity)
+                  end,
+            db:transaction(Fun),
             ok;
         "0" ->
             {error, "is exists"}
@@ -46,13 +54,19 @@ create_city({X, Y}, AuthorId) ->
 
 -spec is_empty({X::integer(), Y::integer()}, AuthorId::string()) ->  IsEmpty::string().
 is_empty({X, Y}, AuthorId) ->
-    case mnesia:dirty_read({map, {{X, Y}, AuthorId}}) of
+    Sql = db:select_sql("map", 
+                        ["id,", "x,", "y,", "author_id"], 
+                        ["x='", X, "' ",
+                         "and y='", Y, "' ",
+                         "and author_id='", AuthorId, "'"]),
+    ?DEBUG("~p:is_empty ~p Sql=~p", [?MODULE, ?LINE, Sql]),
+    case db:select(Sql) of
         [] -> 
             ?DEBUG("~p:is_empty ~p IsEmpty=~p", [?MODULE, ?LINE, "1"]),
             "1";
-        [#map{is_empty = IsEmpty}] -> 
-            ?DEBUG("~p:is_empty ~p IsEmpty=~p", [?MODULE, ?LINE, IsEmpty]),
-            IsEmpty
+        [_Map] -> 
+            ?DEBUG("~p:is_empty ~p _Map=~p ", [?MODULE, ?LINE, _Map]),
+            "0"
     end.
 
 -spec get_city({X::integer(), Y::integer()}, AuthorId::string()) -> 
@@ -61,63 +75,82 @@ get_city({X, Y}, AuthorId) ->
     case is_empty({X, Y}, AuthorId) of
         "1" -> {error, "not exits"};
         "0" -> 
-            [City] = mnesia:dirty_read({city, {{X, Y}, AuthorId}}),
-            ?DEBUG("~p:get_city ~p City=~p", [?MODULE, ?LINE, City]),
-            City
+            Fields = ["x, y, foods, golds, gold_tax, people, soldiers, name, is_captial"],
+            Where = ["x='", X, "' and ",
+                     "y='", Y, "' and ",
+                     "author_id='", AuthorId, "'"],
+            Sql = db:select_sql("city", Fields, Where),
+            case db:select(Sql) of
+                Cities when is_list(Cities) ->
+                    ?DEBUG("~p:get_city ~p Cites=~p", [?MODULE, ?LINE, Cities]),
+                    Cities;
+                Error ->
+                    ?DEBUG("~p:get_city ~p Error=~p", [?MODULE, ?LINE, Error])
+            end
     end.
 
 -spec change_tax({X::integer(), Y::integer()}, AuthorId::string(), Tax::float()) -> 
             ok|{error, Reason::string()}.
 change_tax({X, Y}, AuthorId, Tax) ->
-    case get_city({X, Y}, AuthorId) of
+    Where = ["x='", X, "' and ",
+                     "y='", Y, "' and ",
+                     "author_id='", AuthorId, "'"],
+    Sql = db:update_sql("city", [" gold_tax='", Tax, "'"], Where),
+    case db:update(Sql) of
+        {ok, 0} ->
+            ?ERROR("~p:change_tax ~p noexists", [?MODULE, ?LINE]),
+            {error, "the city is noexists"};
+        {ok, _Num} ->
+            ok;
         {error, Error} ->
-            ?ERROR("~p:change_tax ~p Error=~p", [?MODULE, ?LINE, Error]),
-            {error, Error};
-        City ->
-            NewCity = City#city{gold_tax=Tax},
-            ?DEBUG("~p:change_tax ~p NewCity=~p", [?MODULE, ?LINE, NewCity]),
-            mnesia:dirty_write(NewCity),
-            ok
+            ?ERROR("~p:change_tax ~p Error=~p", [?MODULE, ?LINE, Error])
     end.
 
 -spec change_capital({X::integer(), Y::integer()}, AuthorId::string()) -> 
             ok|{error, Reason::string()}.
 change_capital({X, Y}, AuthorId) ->
-    case get_city({X, Y}, AuthorId) of
+    FunSetCapital = 
+        fun() -> 
+            Where = ["x='", X, "' and ",
+                     "y='", Y, "' and ",
+                     "author_id='", AuthorId, "'"],
+            Set = [" is_captial='", "1", "',",
+                   " product_food_rate='", 10000/60/60,"'"],
+            Sql = db:update_sql("city", Set, Where),
+            case db:update(Sql) of
+                {ok, 0} ->
+                    ?ERROR("~p:change_capital ~p noexists", [?MODULE, ?LINE]),
+                    {error, "the city is noexists"};
+                {ok, _Num} ->
+                    ok;
+                {error, Error} ->
+                    ?ERROR("~p:change_capital ~p Error=~p ", [?MODULE, ?LINE, Error])
+            end
+    end,
+    Fun = fun() ->
+            Where = ["x='", X, "' and ",
+                     "y='", Y, "' and ",
+                     "is_captial='", "1", "' and ",
+                     "author_id='", AuthorId, "'"],
+            Set = [" is_captial='", "0", "',",
+                   " product_food_rate='", 1000/60/60,"'"],
+            Sql = db:update_sql("city", Set, Where),
+            case db:update(Sql) of
+                {ok, _Num} ->
+                    FunSetCapital(),
+                    ok;
+                {error, Error} ->
+                    ?ERROR("~p:change_capital ~p Error=~p ", [?MODULE, ?LINE, Error])
+            end
+          end,
+     case db:transaction(Fun) of
+        {ok, _R} -> ok;
         {error, Error} ->
-            ?ERROR("~p:change_capital ~p Error=~p ", [?MODULE, ?LINE, Error]);
-        City ->
-            case mnesia:dirty_index_read(city, "1", is_capital) of
-                [] -> ok;
-                [Capital] ->
-                    mnesia:dirty_write(Capital#city{is_capital="0", product_food_rate=1000/60/60});
-                R ->
-                ?ERROR("~p:change_capital ~p Error=~p ", [?MODULE, ?LINE, R])
-            end,
-            NewCapital = City#city{is_capital="1", product_food_rate=10000/60/60},
-            ?DEBUG("~p:change_capital ~p NewCapital=~p", [?MODULE, ?LINE, NewCapital]),
-            mnesia:dirty_write(NewCapital)
-    end.
+            ?ERROR("~p:change_capital ~p Error=~p ", [?MODULE, ?LINE, Error])
+     end.
 
--spec change_peoples(City::city()) -> city().
-change_peoples(#city{id=CityId, peoples=Peoples, foods=Foods, gold_tax=Tax}=City) ->
-    ?DEBUG("~p:change_peoples ~p ", [?MODULE, ?LINE]),
-    Precent =
-        if Peoples < Tax *1000 ->
-              ?DEBUG("~p:change_peoples ~p <Peoples=~p", [?MODULE, ?LINE, Peoples]),
-              0.05;
-           Peoples > Tax *1000 ->
-              ?DEBUG("~p:change_peoples ~p >Peoples=~p", [?MODULE, ?LINE, Peoples]),
-              -0.05;
-           true -> 
-              ?DEBUG("~p:change_peoples ~p =Peoples=~p", [?MODULE, ?LINE, Peoples]),
-              0
-        end,
-    NewPeoples = get_max_people(trunc(Precent*Peoples)) + Peoples,
-    ?DEBUG("~p:change_peoples ~p NewPeoples=~p Precent=~p", 
-           [?MODULE, ?LINE, NewPeoples, Precent]),
-    food_crisis(Foods, CityId),
-    mnesia:dirty_write(City#city{peoples=NewPeoples}).
+
+
            
     
 
@@ -216,79 +249,46 @@ get_golds(Golds) ->
 
 
 collect_taxes() ->
-    Cities = ets:tab2list(city),
-    Fun = fun(#city{golds=Golds,  gold_tax=Tax}=City) ->
-              NewGolds = get_golds(Golds, Tax),
-              change_peoples(City#city{golds=NewGolds})
+    ?DEBUG("~p:collect_taxes ~p", [?MODULE, ?LINE]),
+    Tag = utils:get_id(),
+    AddSql = "update city set people= people*1.05, "++
+             "golds=golds-golds*gold_tax, tax_tag='"++Tag++"'  where people<gold_tax*1000;",
+    ReduceSql = "update city set people= people*0.95, golds=golds-golds*gold_tax "++
+                " where people>gold_tax*1000 and tax_tag<>'"++Tag++ "';",
+
+    ReduceSoldierSql = "update soldier s set s.soldier_sum=s.soldier_sum-(s.soldier_sum*0.1)"++
+                       " where s.x in (select x from city where is_food_crisis='1' )"++
+                       " and s.y in(select y from city where is_food_crisis='1');",
+
+    CrisisSql = "update city set is_food_crisis='0' where is_food_crisis='1'",
+    Fun = fun()->
+            db:update(AddSql),
+            db:update(ReduceSql),
+            db:update(ReduceSoldierSql),
+            db:update(CrisisSql)
           end,
-    lists:foreach(Fun, Cities).
+    case db:transaction(Fun) of
+        {ok, _R} -> ok;
+        {error, Error} ->
+            ?ERROR("~p:collect_taxes ~p Error=~p ", [?MODULE, ?LINE, Error])
+    end.
 
 product_food() ->
-    Cities = ets:tab2list(city),
-    Fun = fun(#city{foods=Foods, product_food_rate=Rate}=City) ->
-              mnesia:dirty_write(City#city{foods=Foods+Rate}) 
-          end,
-    lists:foreach(Fun, Cities).
-    
--spec food_crisis(Foods::integer(), CityId::city_id()) -> ok.
-food_crisis(Foods, _CityId) when Foods >0 ->
-    ok;
-food_crisis(_Foods, CityId) ->
-    ?DEBUG("~p:food_crisis ~p CityId=~p", [?MODULE, ?LINE, CityId]),
-    case mnesia:dirty_index_read(soldier, CityId, city_id) of
-        [] -> ok;
-        Soldiers when is_list(Soldiers) ->
-            Fun  = fun(Soldier) ->
-                       Sum=Soldier#soldier.sum,
-                       NewSum=trunc(Sum*0.9), 
-                       mnesia:dirty_write(Soldier#soldier{sum=NewSum})
-                   end,
-            lists:foreach(Fun, Soldiers),
+    Sql = db:update_sql("city", ["foods=foods+product_food_rate"], ""),
+    case db:update(Sql) of
+        {ok, _Num} ->
             ok;
-        _Other ->
-            ok
+        {error, Error} ->
+            ?ERROR("~p:product_food ~p Error=~p ", [?MODULE, ?LINE, Error])
+            
     end.
+
 
 -ifdef(TEST).
 -include_lib("eunit/include/eunit.hrl").
 -endif.
 
 -ifdef(TEST).
-change_peoples_test1() ->
-    application:start(game),
-    X2 = 2, Y2=2, AuthorId = "langxw",
-    Y1=1,
-    MatchCity21 =
-        {city, {{2, 1}, "langxw"}, "cityname", "langxw", 
-                0.0, 1000/60/60, 0.0, 0.1, 100, 0, "0"},
-    create_city({X2, Y1}, AuthorId),
-    change_tax({X2, Y1}, AuthorId, 0.1),
-    City21 = get_city({X2, Y1}, AuthorId),
-    change_peoples(City21),
-    NewCity21 = get_city({X2, Y1}, AuthorId),
-
-    ?DEBUG("~p:change_peoples_test ~p NewCity21=~p", [?MODULE, ?LINE, NewCity21]),
-    ?DEBUG("~p:change_peoples_test ~p MatchCity21=~p", [?MODULE, ?LINE, MatchCity21]),
-
-    MatchCity22 =
-        {city, {{2, 2}, "langxw"}, "cityname", "langxw", 
-                0.0, 1000/60/60, 0.0, 0.2, 197, 0, "0"},
-    create_city({X2, Y2}, AuthorId),
-    City22 = get_city({X2, Y2}, AuthorId),
-    Fun = fun(_N, Acc) ->
-                change_peoples(Acc),
-                get_city({X2, Y2}, AuthorId)
-          end,
-    lists:foldl(Fun, City22, lists:seq(1,19)),
-    NewCity22 = get_city({X2, Y2}, AuthorId),
-
-    ?DEBUG("~p:change_peoples_test ~p MatchCity22=~p", [?MODULE, ?LINE, MatchCity22]),
-    ?DEBUG("~p:change_peoples_test ~p NewCity22=~p", [?MODULE, ?LINE, NewCity22]),
-    [
-     ?assertMatch(MatchCity21, NewCity21),
-     ?assertMatch(MatchCity22, NewCity22)
-    ].
-
 
 init_test1() ->
     application:start(game),
@@ -303,27 +303,58 @@ create_city_test1() ->
     NotEmpty = is_empty({X, Y}, AuthorId),
     {Failure, _} = create_city({X, Y}, AuthorId),
     City = get_city({X, Y}, AuthorId),
-    MatchCity = {city, {{1, 1}, "langxw"}, "cityname", "langxw", 0.0, 1000/60/60, 0.0, 0.2, 100, 0, "0"},
-    MatchCityTax = {city, {{1, 1}, "langxw"}, "cityname", "langxw", 0.0, 1000/60/60, 0.0, 0.1, 100, 0, "0"},
-    MatchCapital = {city, {{1, 1}, "langxw"}, "cityname", "langxw", 0.0, 10000/60/60, 0.0, 0.1, 100, 0, "1"},
-    MatchCapitalTime = {city, {{1, 1}, "langxw"}, "cityname", "langxw", 10000/60/60*2, 10000/60/60, 0.0, 0.1, 100, 0, "1"},
+    MatchCity = [[{"x", 1}, 
+                  {"y", 1}, 
+                  {"foods", 0.0},
+                  {"golds", 0.0}, 
+                  {"gold_tax", 0.2}, 
+                  {"people", 100}, 
+                  {"soldiers", 0}, 
+                  {"name", <<>>},
+                  {"is_captial", <<"0">>}]],
+
+    MatchCityTax = [[{"x", 1}, 
+                     {"y", 1}, 
+                     {"foods", 0.0},
+                     {"golds", 0.0}, 
+                     {"gold_tax", 0.1}, 
+                     {"people", 100}, 
+                     {"soldiers", 0}, 
+                     {"name", <<>>},
+                     {"is_captial", <<"0">>}]],
+    MatchCapital = [[{"x", 1}, 
+                     {"y", 1}, 
+                     {"foods", 0.0},
+                     {"golds", 0.0}, 
+                     {"gold_tax", 0.1}, 
+                     {"people", 100}, 
+                     {"soldiers", 0}, 
+                     {"name", <<>>},
+                     {"is_captial", <<"1">>}]],
+    MatchCapitalTime = [[{"x", 1}, 
+                     {"y", 1}, 
+                     {"foods", 2.78},
+                     {"golds", 0.0}, 
+                     {"gold_tax", 0.1}, 
+                     {"people", 100}, 
+                     {"soldiers", 0}, 
+                     {"name", <<>>},
+                     {"is_captial", <<"1">>}]],
+
     ChangeTax = change_tax({X, Y}, AuthorId, 0.1),
     {ChangeTaxError, _} = change_tax({X, 2}, AuthorId, 0.1),
     CityTax = get_city({X, Y}, AuthorId),
     change_capital({X, Y}, AuthorId),
-    change_capital({X, Y}, AuthorId),
     Capital = get_city({X, Y}, AuthorId),
-    receive after 2000 -> ok end,
+    receive after 1000 -> ok end,
     CapitalTime = get_city({X, Y}, AuthorId),
-    ?DEBUG("~p MatchCapitalTime=~p", [?LINE, MatchCapitalTime]),
-    ?DEBUG("~p CapitalTime=~p", [?LINE, CapitalTime]),
-    %change_peoples_test1(), 
+ %   ?DEBUG("~p MatchCapitalTime=~p", [?LINE, MatchCapitalTime]),
+ %   ?DEBUG("~p CapitalTime=~p", [?LINE, CapitalTime]),
     [
      %?assertMatch(ok, Init),
      ?assertMatch("1", EmptyList),
      ?assertMatch(ok, Success),
      ?assertMatch("0", NotEmpty),
-     %?assertMathc("1", EmptyList),
      ?assertMatch(error, Failure),
      ?assertMatch(MatchCity, City),
      ?assertMatch(ok, ChangeTax),
@@ -339,19 +370,25 @@ collect_taxes_test1() ->
     X1 = 1, Y1=1, AuthorId = "langxw",
     create_city({X2, Y2}, AuthorId),
     create_city({X1, Y1}, AuthorId),
-    City22 = get_city({X2, Y2}, AuthorId),
-    change_peoples(City22#city{golds=100.0}),
+    db:update("update city set golds=100, people=1000 where author_id='langxw';"),
     change_tax({X2, Y2}, AuthorId, 0.1),
-    collect_taxes(),
-    MatchCity22 =
-        {city, {{2, 2}, "langxw"}, "cityname", "langxw", 
-                1000/60/60*2, 1000/60/60, 90.0, 0.1, 187, 0, "0"},
+    [collect_taxes() ||_K<-lists:seq(1,1)],
+
+    MatchCity22 = [[{"x", 2}, 
+                    {"y", 2}, 
+                    {"foods", 0.0},
+                    {"golds", 90.0}, 
+                    {"gold_tax", 0.1}, 
+                    {"people", 950}, 
+                    {"soldiers", 0}, 
+                    {"name", <<>>},
+                    {"is_captial", <<"0">>}]],
     CityTax22 = get_city({X2, Y2}, AuthorId),
     [
      ?assertMatch(MatchCity22, CityTax22)
     ].
-respawn_test() ->
-    receive after 4000 -> ok end,
+respawn_test1() ->
+    receive after 2000 -> ok end,
     [].
 
 -endif.

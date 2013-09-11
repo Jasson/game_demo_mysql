@@ -57,12 +57,16 @@ to_battle(FromCityId, ToCityId, PikeSoldier, ArcherSoldier, Cavalry) ->
             %%TODO
             ok
     after SpendTime ->
-        join_battle(ToCityId),
-        [kill_soldier(FromCityId, ToCityId) ||_N<-lists:seq(1,10)],
+        join_battle(FromCityId, from),
+        join_battle(ToCityId, to),
+        [kill_soldier(FromCityId, ToCityId) ||_N<-lists:seq(1,3)],
+        go_back(ToCityId, "3", "6"),
+        go_back(FromCityId, "5", "6"),
         receive 
-        after SpendTime ->
-            to_back(FromCityId),
-            complete(self(), FromCityId)
+        after 0 -> %% TODO 
+            complete(self(), FromCityId),
+            go_back(FromCityId, "3", "5"),
+            ok
         end
     end.
     
@@ -137,7 +141,7 @@ code_change(_OldVsn, State, _Extra) ->
                     Max::integer()) -> ok |{error, term()}.
     
 is_may_battle(CityId, PikeSoldier, ArcherSoldier, Cavalry, CitiesId, Max) ->
-    case train_soldier:is_empty(CityId, CitiesId, Max) of
+    case is_empty(CityId, CitiesId, Max) of
         ok ->
             is_enough_soldier_to_battle(CityId, PikeSoldier, ArcherSoldier, Cavalry);
         Error ->
@@ -166,51 +170,76 @@ is_enough_soldier_to_battle(CityId, PikeSoldier, ArcherSoldier, Cavalry) ->
 
 get_soldier(_CityId, {_Type, 0}) ->
     ok;
-get_soldier(CityId, {Type, Num}) ->
-    case mnesia:dirty_read(soldier, {CityId, "3", Type}) of
+get_soldier({{X,Y}, AuthorId}=CityId, {Type, Num}) ->
+    Where = ["x='", X, "' and ",
+             "y='", Y, "' and ",
+             "type='", Type, "' and ",
+             "state='", "3", "' and ",
+             "author_id='", AuthorId, "'"],
+    Sql = db:select_sql("soldier", ["soldier_sum"], Where),
+    case db:select(Sql) of
         [] -> {error, "not enough "++Type};
-        [#soldier{sum=Sum}=Soldier] when Num=<Sum ->
-            to_forward(Soldier, Num, Sum),
+        [[{"soldier_sum", Sum}]] when Num=<Sum ->
+            to_forward(CityId, Type, Num),
             ok;
-        [#soldier{sum=Sum}] when Num>Sum ->
+        [[{"soldier_sum", Sum}]] when Num>Sum ->
             {error, "not enough "++Type};
         Error ->
             {error, Error}
-        
     end.
--spec to_forward(Soldier::soldier(), Num::integer(), Sum::integer()) ->ok.
 
-to_forward(Soldier, Num, Sum) ->
-    ?DEBUG("~p:to_forward ~p Num=~p, Sum=~p, Soldier=~p", 
-            [?MODULE, ?LINE, Num, Sum, Soldier]),
-    Type = Soldier#soldier.type,
-    CityId = Soldier#soldier.city_id,
-    AuthorId = Soldier#soldier.author_id,
-    State = "6",
-    AuthorIdState = {AuthorId, State},
-    mnesia:dirty_write(Soldier#soldier{sum=Sum-Num}),
-    ForwardSoldier = Soldier#soldier{id={CityId, State, Type},
-                                     author_id_state=AuthorIdState,
-                                     state=State,
-                                     sum=Num},
-    mnesia:dirty_write(ForwardSoldier).
+-spec to_forward(CityId::city_id(), Type::string(), 
+            Num::integer()) ->ok.
+to_forward(CityId, Type, Num) ->
+    ?DEBUG("~p:to_forward ~p Num=~p", [?MODULE, ?LINE, Num]),
+    train_soldier:add_soldier(CityId, Num, Type, "4"),
+    train_soldier:add_soldier(CityId, -Num, Type, "3").
 
--spec join_battle(CityId::city_id()) -> ok|{error, term()}.
-join_battle(CityId) ->
-    %% TODO send battle notice
-    Soldiers = mnesia:dirty_index_read(soldier, CityId, city_id),
-    Fun = fun(#soldier{id={_, "3", Type}, 
-                       author_id=AuthorId, 
-                       state="3"}=Soldier) ->
-              NewSoldier = 
-                  Soldier#soldier{id={CityId, "6", Type},
-                                  author_id_state={AuthorId, "6"},
-                                  state=6
-                                 },
-              mnesia:dirty_write(NewSoldier);
-              (_Soldier) -> ok
-          end,
-    lists:foreach(Fun, Soldiers).
+-spec join_battle(CityId::city_id(), Type::atom()) -> ok|{error, term()}.
+join_battle(CityId, from) ->
+    PikeNum = get_forward_num("1", CityId, "4"),
+    ArcherNum = get_forward_num("2", CityId, "4"),
+    CavalryNum =get_forward_num("3", CityId, "4"),
+
+    train_soldier:add_soldier(CityId, PikeNum, "1", "6"),
+    train_soldier:add_soldier(CityId, -PikeNum, "1", "4"),
+
+    train_soldier:add_soldier(CityId, ArcherNum, "2", "6"),
+    train_soldier:add_soldier(CityId, -ArcherNum, "2", "4"),
+
+    train_soldier:add_soldier(CityId, CavalryNum, "3", "6"),
+    train_soldier:add_soldier(CityId, -CavalryNum, "3", "4");
+join_battle(CityId, to) ->
+    PikeNum = get_forward_num("1", CityId, "3"),
+    ArcherNum = get_forward_num("2", CityId, "3"),
+    CavalryNum =get_forward_num("3", CityId, "3"),
+    train_soldier:add_soldier(CityId, PikeNum, "1", "6"),
+    train_soldier:add_soldier(CityId, -PikeNum, "1", "3"),
+
+    train_soldier:add_soldier(CityId, ArcherNum, "2", "6"),
+    train_soldier:add_soldier(CityId, -ArcherNum, "2", "3"),
+
+    train_soldier:add_soldier(CityId, CavalryNum, "3", "6"),
+    train_soldier:add_soldier(CityId, -CavalryNum, "3", "3").
+
+
+
+-spec get_forward_num(Type::string(), CityId::city_id(), 
+                      State::string()) -> integer().
+get_forward_num(Type, {{X, Y}, AuthorId}, State) ->
+    Where = ["x='", X, "' and ",
+             "y='", Y, "' and ",
+             "type='", Type, "' and ",
+             "state='", State, "' and ",
+             "author_id='", AuthorId, "'"],
+    Sql = db:select_sql("soldier", ["soldier_sum"], Where),
+    case db:select(Sql) of
+        [] -> 0;
+        [[{"soldier_sum", Num}]] -> Num
+    end.
+
+    
+    
 
 -spec get_distance(FromCityId::city_id(), ToCityId::city_id()) -> float().
 get_distance({{X1, Y1}, _}, {{X2, Y2}, _}) ->
@@ -240,7 +269,7 @@ get_spend_time(Distance, PikeSoldier, ArcherSoldier, Cavalry) ->
                 60/1.5
         end, 
     %%Distance * Time3.
-    trunc(Distance * Time3*10).  %TODO
+    trunc(Distance * Time3*2).  %TODO
      
 
 
@@ -254,39 +283,59 @@ kill_soldier(_From, To, 1) ->
 kill_soldier(From, _To, 2) ->
     kill_soldier(From).
 
-kill_soldier(CityId) ->
+kill_soldier({{X,Y}, AuthorId}) ->
     %%TODO ignore back time
     Type = get_random_type(),
-    case mnesia:dirty_read(soldier, {CityId, "6", Type}) of
-        [#soldier{sum=Sum}=Soldier] when Sum=<0->
-            ?DEBUG("~p:kill_soldier ~p Soldier =~p", [?MODULE, ?LINE, Soldier]),
-            mnesia:dirty_write(Soldier#soldier{sum=0});
-        [#soldier{sum=Sum}=Soldier] when Sum>0->
-            ?DEBUG("~p:kill_soldier ~p Soldier =~p", [?MODULE, ?LINE, Soldier]),
-            mnesia:dirty_write(Soldier#soldier{sum=Sum-1});
-        Error ->
-            ?DEBUG("~p:kill_soldier ~p Error =~p", [?MODULE, ?LINE, Error]),
-            ok
-    end.
+    Where = ["x='", X, "' and ",
+             "y='", Y, "' and ",
+             "type='", Type, "' and ",
+             "state='6' and ",
+             "author_id='", AuthorId, "'"],
+    Sql = db:update_sql("soldier", ["soldier_sum=soldier_sum-1"], Where),
+    db:update(Sql),
+    db:update("update soldier set soldier_sum=0 where soldier_sum<0").
 
 get_random_type() ->
     Random = random:uniform(3),
     integer_to_list(Random).
     
     
--spec to_back(CityId::city_id()) -> ok.
-to_back(CityId) ->
-    Soldiers =  mnesia:dirty_index_read(soldier, CityId, city_id),
-    Fun = fun(#soldier{type=Type, state="6", sum=Num}=Soldier) ->
-                  mnesia:dirty_write(Soldier#soldier{sum=0}),
-                  case mnesia:dirty_read(soldier, {CityId, "3", Type}) of
-                      [#soldier{sum=Sum}=OrgSoldier] ->
-                          mnesia:dirty_write(OrgSoldier#soldier{sum=Sum+Num})
-                  end;
-             (_Soldier) ->
-                ok
-          end,
-    lists:foreach(Fun, Soldiers).
+-spec go_back(CityId::city_id(), AddState::string(), ReduceState::string()) -> ok.
+go_back(CityId, AddState, ReduceState) ->
+    PikeNum = get_forward_num("1", CityId, ReduceState),
+    ArcherNum = get_forward_num("2", CityId, ReduceState),
+    CavalryNum =get_forward_num("3", CityId, ReduceState),
+
+    train_soldier:add_soldier(CityId, PikeNum, "1", AddState),
+    train_soldier:add_soldier(CityId, -PikeNum, "1", ReduceState),
+
+    train_soldier:add_soldier(CityId, ArcherNum, "2", AddState),
+    train_soldier:add_soldier(CityId, -ArcherNum, "2", ReduceState),
+
+    train_soldier:add_soldier(CityId, CavalryNum, "3", AddState),
+    train_soldier:add_soldier(CityId, -CavalryNum, "3", ReduceState),
+    db:update("update soldier set soldier_sum=0 where soldier_sum<0").
+
+
+
+-spec is_empty(CityId::city_id(), Cities::dict(), Max::integer()) ->
+            ok|{error, Error::term()}.
+is_empty(CityId, Cities, Max) ->
+    case dict:is_key(CityId, Cities) of
+        true ->
+            case dict:fetch(CityId, Cities) of
+                Value when Value < Max -> 
+                    ?DEBUG("~p:is_empty ~p Value=~p", [?MODULE, ?LINE, Value]),
+                    ok;
+                _IsFull ->
+                    ?DEBUG("~p:is_empty ~p _IsFull=~p", [?MODULE, ?LINE, _IsFull]),
+                    {error, "is_full"}    
+            end;
+        false ->
+           ok
+    end.
+
+
 
 
 -ifdef(TEST).
@@ -295,6 +344,46 @@ to_back(CityId) ->
 
 -ifdef(TEST).
 
+
+respawn_test1() -> 
+    application:start(game),
+    X4 = 4, Y4=4, 
+    AuthorId4 = "langxw",
+    X9=9, Y9 = 9,
+    AuthorId9 = "langxw9",
+    CityId = {{X4, Y4}, AuthorId4},
+    From = CityId,
+    To = {{X9, Y9}, AuthorId9},
+    simple_server:create_city({X4, Y4}, AuthorId4),
+    City44 = simple_server:get_city({X4, Y4}, AuthorId4),
+    %simple_server:change_peoples(City44#city{golds=1000.0}),
+    simple_server:create_city({X9, Y9}, AuthorId9),
+    City99 = simple_server:get_city({X9, Y9}, AuthorId9),
+    %simple_server:change_peoples(City99#city{golds=1000.0}),
+    db:update("update city set golds='1000', foods='1000';"),
+    train_soldier:add_train("1", From, "1", 15),
+    train_soldier:add_train("1", To, "4", 15),
+    train_soldier:add_train("2", From, "2", 15),
+    train_soldier:add_train("2", To, "5", 15),
+    %train_soldier:add_train("3", To, "6", 15),
+    %train_soldier:add_train("3", From, "3", 15),
+    receive after 1500 -> ok end,
+    train_soldier:get_soldier_for_city(From),
+    train_soldier:get_soldier_for_city(To),
+    send_soldier(From, To, {"1",10}, {"2",10}, {"3",0}),
+    receive after 200 -> ok end,
+    {timeout, 15, ?_assertEqual(true, begin 
+            send_soldier(From, To, {"1",0}, {"2",1}, {"3",0}),
+        timer:sleep(10000), true end)},
+    respawn_test(). 
+    %receive after 2000 -> ok end,
+    %train_soldier:get_soldier_for_city(From),
+    %train_soldier:get_soldier_for_city(To),
+    %kill_soldier(To, From),
+    %kill_soldier(To, From),
+   %kill_soldier(To, From),
+    %receive after 1000 -> ok end,
+    %[{timeout, 10000, ?assertMatch(ok, ok)}].
 respawn_test() -> 
     application:start(game),
     X4 = 4, Y4=4, 
@@ -306,31 +395,16 @@ respawn_test() ->
     To = {{X9, Y9}, AuthorId9},
     simple_server:create_city({X4, Y4}, AuthorId4),
     City44 = simple_server:get_city({X4, Y4}, AuthorId4),
-    simple_server:change_peoples(City44#city{golds=1000.0}),
     simple_server:create_city({X9, Y9}, AuthorId9),
     City99 = simple_server:get_city({X9, Y9}, AuthorId9),
-    simple_server:change_peoples(City99#city{golds=1000.0}),
-    train_soldier:add_train("1", From, "1", 5),
-    train_soldier:add_train("2", From, "2", 5),
-    train_soldier:add_train("3", From, "3", 5),
-    train_soldier:add_train("1", To, "1", 5),
-    train_soldier:add_train("2", To, "2", 5),
-    train_soldier:add_train("3", To, "3", 5),
+    db:delete("delete from soldier where state<>3;"),
+    db:update("update soldier set soldier_sum= 100;"),
+    db:update("update city set golds='1000', foods='1000';"),
+    send_soldier(From, To, {"1",10}, {"2",10}, {"3",0}),
     receive after 2000 -> ok end,
-    train_soldier:get_soldier_for_city(From),
-    train_soldier:get_soldier_for_city(To),
-    send_soldier(From, To, {"1",1}, {"2",1}, {"3",0}),
-    send_soldier(From, To, {"1",0}, {"2",1}, {"3",0}),
-    receive after 1000 -> ok end,
-    train_soldier:get_soldier_for_city(From),
-    train_soldier:get_soldier_for_city(To),
-    %kill_soldier(To, From),
-    %kill_soldier(To, From),
-    %kill_soldier(To, From),
-    receive after 1000 -> ok end,
-    [?assertMatch(ok, ok),
-     ?assertMatch(1,1)
-    ].
-
+    {timeout, 15, ?_assertEqual(true, begin 
+            send_soldier(From, To, {"1",0}, {"2",1}, {"3",0}),
+        timer:sleep(10000), true end)}.
+ 
 -endif.
 

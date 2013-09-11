@@ -43,6 +43,6 @@ init([]) ->
               worker,
               [battle]},
     Process = [TrainSoldier, SimpleServer, Battle],
-    %Process = [],
+    %Process = [SimpleServer, TrainSoldier],
     {ok, { {one_for_one, 5, 10}, Process} }.
 
